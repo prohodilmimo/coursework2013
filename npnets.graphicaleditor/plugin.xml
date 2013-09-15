@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="npnets.graphicaleditor.editor.NetEditor"
+            contributorClass="npnets.graphicaleditor.editor.NetActionBarContributor"
+            default="true"
+            extensions="npnets"
+            id="npnets.graphicaleditor.editorID"
+            name="NPN GEF Edtior">
+      </editor>
+   </extension>
+</plugin>
