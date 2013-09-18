@@ -1,6 +1,6 @@
 package npnets.graphicaleditor.editor.command;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
@@ -9,20 +9,20 @@ public class NodeChangeCoordinatesCommand extends Command {
  
   private Point oldCoordinates;
   private Point newCoordinates;
-  private Node model;
+  private NPNSymbolNodeSN model;
    
   @Override public void execute() {
     if(oldCoordinates == null) {
-      oldCoordinates = model.getCoordinates();
+      oldCoordinates = model.getConstraints().getLocation();
     }
-    model.setCoordinates(newCoordinates);
+    model.getConstraints().setLocation(newCoordinates);
   }
  
   @Override public void undo() {
-    model.setCoordinates(oldCoordinates);
+    model.getConstraints().setLocation(oldCoordinates);
   }
  
-  public void setModel(Node model) {
+  public void setModel(NPNSymbolNodeSN model) {
     this.model = model;
   }
    

@@ -7,58 +7,76 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
-//import npn.model.highlevelnet.Arc;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-//import npn.model.highlevelnet.Net;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-//import npn.model.highlevelnet.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.*;
+//import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
+//import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+//import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
  
 public class NodeDeleteCommand extends Command {
  
-  private Node node;
-  private HighLevelPetriNet net;
-  private List<Arc> arcs;
-  private Map<Arc, Node> arcSources;
-  private Map<Arc, Node> arcTargets;
+  private NPNSymbolNodeSN node;
+  private NPNDiagramNetSystem net;
+  private List<NPNSymbolArcSN> arcs;
+  private Map<NPNSymbolArcSN, NPNSymbolNodeSN> arcSources;
+  private Map<NPNSymbolArcSN, NPNSymbolNodeSN> arcTargets;
  
   private void detachLinks() {
-	    arcs = new ArrayList<Arc>();
-	    arcSources = new HashMap<Arc, Node>();
-	    arcTargets = new HashMap<Arc, Node>();
-	    arcs.addAll(node.getIncomingArcs());
-	    arcs.addAll(node.getOutgoingArcs());
-	    for (Arc arc : arcs) {
-	      arcSources.put(arc, arc.getSource());
-	      arcTargets.put(arc, arc.getTarget());
-	      arc.setSource(null);
-	      arc.setTarget(null);
-	      arc.setNet(null);
+	    arcs = new ArrayList<NPNSymbolArcSN>();
+	    arcSources = new HashMap<NPNSymbolArcSN, NPNSymbolNodeSN>();
+	    arcTargets = new HashMap<NPNSymbolArcSN, NPNSymbolNodeSN>();
+	    if (node instanceof NPNSymbolPlaceSN) {
+	    	arcs.addAll(((NPNSymbolPlaceSN)node).getInArcs());
+	    	arcs.addAll(((NPNSymbolPlaceSN)node).getOutArcs());
+	    } else if (node instanceof NPNSymbolTransitionSN) {
+	    	arcs.addAll(((NPNSymbolTransitionSN)node).getInArcs());
+	    	arcs.addAll(((NPNSymbolTransitionSN)node).getOutArcs());
+	    }
+	    for (NPNSymbolArcSN arc : arcs) {
+	      if (arc instanceof NPNSymbolArcPTSN) {
+		    arcSources.put(arc, ((NPNSymbolArcPTSN)arc).getSource());
+		    arcTargets.put(arc, ((NPNSymbolArcPTSN)arc).getTarget());
+		    ((NPNSymbolArcPTSN)arc).setSource(null);
+		    ((NPNSymbolArcPTSN)arc).setTarget(null);
+	      } else if (arc instanceof NPNSymbolArcTPSN) {
+	    	arcSources.put(arc, ((NPNSymbolArcTPSN)arc).getSource());
+		    arcTargets.put(arc, ((NPNSymbolArcTPSN)arc).getTarget());
+		    ((NPNSymbolArcTPSN)arc).setSource(null);
+		    ((NPNSymbolArcTPSN)arc).setTarget(null);  
+	      }
+	      arc.setDiagram(null);
 	    }
 	  }
 	 
 	  private void reattachLinks() {
-	    for (Arc arc : arcs) {
-	      arc.setSource(arcSources.get(arc));
-	      arc.setTarget(arcTargets.get(arc));
-	      arc.setNet(net);
+	    for (NPNSymbolArcSN arc : arcs) {
+	      if (arc instanceof NPNSymbolArcPTSN) {
+		    ((NPNSymbolArcPTSN)arc).setSource((NPNSymbolPlaceSN)arcSources.get(arc));
+		    ((NPNSymbolArcPTSN)arc).setTarget((NPNSymbolTransitionSN)arcSources.get(arc));
+	      } else if (arc instanceof NPNSymbolArcTPSN) {
+		    ((NPNSymbolArcTPSN)arc).setSource((NPNSymbolTransitionSN)arcSources.get(arc));
+		    ((NPNSymbolArcTPSN)arc).setTarget((NPNSymbolPlaceSN)arcSources.get(arc));  
+	      }
+	      arc.setDiagram(net);
 	    }
 	  }
   
   @Override
   public void execute() {
 	  detachLinks();
-	  node.setNet(null);
+	  node.setDiagram(null);
   }
  
   @Override
   public void undo() {
 	reattachLinks();
-    node.setNet(net);
+    node.setDiagram(net);
   }
  
-  public void setNode(Node node) {
+  public void setNode(NPNSymbolNodeSN node) {
     this.node = node;
-    this.net = node.getNet();
+    this.net = node.getDiagram();
   }
 }
