@@ -5,9 +5,11 @@ import org.eclipse.gef.editpolicies.GraphicalNodeEditPolicy;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
  
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
 //import npn.model.highlevelnet.Arc;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
 //import npn.model.highlevelnet.Node;
 import npnets.graphicaleditor.editor.command.ArcCreateCommand;
  

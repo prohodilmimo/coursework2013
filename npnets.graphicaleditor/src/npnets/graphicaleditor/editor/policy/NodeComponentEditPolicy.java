@@ -5,14 +5,12 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
-import ru.mathtech.npntool.npnets.highlevelnets.marking.Marking;
-//import npn.model.highlevelnet.Markup;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-//import npn.model.highlevelnet.Net;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
+import ru.mathtech.npntool.npnets.npndiagrams.*;
+//import ru.mathtech.npntool.npnets.highlevelnets.marking.Marking;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.Token;
-//import npn.model.highlevelnet.Token;
 import npnets.graphicaleditor.editor.action.NodeCloneAction;
 import npnets.graphicaleditor.editor.action.PlaceAddSystemAction;
 import npnets.graphicaleditor.editor.action.PlaceAddTokenAction;
@@ -25,19 +23,19 @@ import npnets.graphicaleditor.editor.factory.TokenFactory;
 public class NodeComponentEditPolicy extends ComponentEditPolicy {
 	@Override protected Command createDeleteCommand(GroupRequest deleteRequest) {
 		NodeDeleteCommand nodeDeleteCommand = new NodeDeleteCommand();
-		nodeDeleteCommand.setNode((Node) getHost().getModel());
+		nodeDeleteCommand.setNode((NPNSymbolNodeSN) getHost().getModel());
 		return nodeDeleteCommand;
 	}
 	
     private NodeCloneCommand createCloneCommand() {
         NodeCloneCommand command = new NodeCloneCommand();
-        command.setNode((Node) getHost().getModel());
+        command.setNode((NPNSymbolNodeSN) getHost().getModel());
         return command;
     }
     
     private PlaceAddTokenCommand createAddTokenCommand() {
     	PlaceAddTokenCommand command = new PlaceAddTokenCommand();
-        command.setPlace((Place) getHost().getModel());
+        command.setPlace((NPNSymbolPlaceSN) getHost().getModel());
         command.setToken((Token)(new TokenFactory()).getNewObject());
         //TODO: correct Marking
         command.setMarkup((Marking) ((HighLevelPetriNet)getHost().getParent().getModel()).getMarkups().get(0));
@@ -46,7 +44,7 @@ public class NodeComponentEditPolicy extends ComponentEditPolicy {
     
     private PlaceAddSystemCommand createAddSystemCommand() {
     	PlaceAddSystemCommand command = new PlaceAddSystemCommand();
-        command.setPlace((Place) getHost().getModel());
+        command.setPlace((NPNSymbolPlaceSN) getHost().getModel());
         return command;
     }
     

@@ -6,7 +6,7 @@ import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.SelectionToolEntry;
  
-import npnets.graphicaleditor.editor.factory.ArcFactory;
+import npnets.graphicaleditor.editor.factory.ArcTPFactory;
 import npnets.graphicaleditor.editor.factory.PlaceFactory;
 import npnets.graphicaleditor.editor.factory.TransitionFactory;
 import npnets.graphicaleditor.editor.tool.CreationAndDirectEditTool;
@@ -47,7 +47,7 @@ public class NetGraphicalEditorPalette extends PaletteRoot {
     }
   
   private void addArcTool() {
-    ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry("Arc", "Creates a new Arc", new ArcFactory(), null, null);
+    ConnectionCreationToolEntry entry = new ConnectionCreationToolEntry("Arc", "Creates a new Arc", new ArcTPFactory(), null, null);
     group.add(entry);
     }
 }

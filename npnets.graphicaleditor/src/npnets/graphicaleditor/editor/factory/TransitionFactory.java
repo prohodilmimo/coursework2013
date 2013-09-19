@@ -2,18 +2,16 @@ package npnets.graphicaleditor.editor.factory;
 
 import org.eclipse.gef.requests.CreationFactory;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Transition;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
-//import npn.model.highlevelnet.HighlevelnetFactory;
-//import npn.model.highlevelnet.Transition;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
  
 public class TransitionFactory implements CreationFactory {
  
   @Override public Object getNewObject() {
-    return HLPNFactory.eINSTANCE.createTransition();
+    return NPNDiagramsFactory.eINSTANCE.createNPNSymbolTransitionSN();
   }
  
   @Override public Object getObjectType() {
-    return Transition.class;
+    return NPNSymbolTransitionSN.class;
   }
 }

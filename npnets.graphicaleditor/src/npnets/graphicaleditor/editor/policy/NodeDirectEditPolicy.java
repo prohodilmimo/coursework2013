@@ -4,7 +4,8 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
 //import npn.model.highlevelnet.Node;
 import npnets.graphicaleditor.editor.command.NodeRenameCommand;
 import npnets.graphicaleditor.editor.figure.NodeFigure;
@@ -13,7 +14,7 @@ public class NodeDirectEditPolicy extends DirectEditPolicy {
 	 
 	  @Override protected Command getDirectEditCommand(DirectEditRequest request) {
 	    NodeRenameCommand command = new NodeRenameCommand();
-	    command.setModel((Node) getHost().getModel());
+	    command.setModel((NPNSymbolNodeSN) getHost().getModel());
 	    command.setNewName((String) request.getCellEditor().getValue());
 	    return command;
 	  }

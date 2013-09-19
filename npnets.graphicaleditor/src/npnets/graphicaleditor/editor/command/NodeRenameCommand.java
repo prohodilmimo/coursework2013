@@ -2,28 +2,30 @@ package npnets.graphicaleditor.editor.command;
 
 import org.eclipse.gef.commands.Command;
 
+
 //import npn.model.highlevelnet.Node;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
  
 public class NodeRenameCommand extends Command {
    
   private String oldName, newName;
-  private Node model;
+  private NPNSymbolNodeSN model;
  
   @Override public void execute() {
-    oldName = model.getName();
-    model.setName(newName);
+    oldName = model.getModel().getName();
+    model.getModel().setName(newName);
   }
  
   @Override public void undo() {
-    model.setName(oldName);
+    model.getModel().setName(oldName);
   }
    
   public void setNewName(String newName) {
     this.newName = newName;
   }
    
-  public void setModel(Node model) {
+  public void setModel(NPNSymbolNodeSN model) {
     this.model = model;
   }
 }
