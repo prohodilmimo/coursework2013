@@ -157,10 +157,8 @@ import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.provider.NPNetsItem
 //import npn.model.globals.provider.GlobalsItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.provider.TokenExpressionsItemProviderAdapterFactory;
 
-//import npn.model.Project;
-//import npn.model.highlevelnet.Net;
-//import npn.model.highlevelnet.provider.HighlevelnetItemProviderAdapterFactory;
 import npnets.graphicaleditor.model.project.Project;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
 

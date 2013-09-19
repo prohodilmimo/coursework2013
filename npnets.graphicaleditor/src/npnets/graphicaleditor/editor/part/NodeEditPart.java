@@ -15,11 +15,9 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.jface.viewers.TextCellEditor;
 
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.draw2d.geometry.Dimension;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
 import npnets.graphicaleditor.editor.figure.NodeFigure;
 import npnets.graphicaleditor.editor.policy.NodeComponentEditPolicy;
 import npnets.graphicaleditor.editor.policy.NodeDirectEditPolicy;
@@ -35,17 +33,7 @@ public abstract class NodeEditPart extends AbstractGraphicalEditPart implements 
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new NodeGraphicalNodeEditPolicy());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new NodeComponentEditPolicy());
 		}
-	
-	@Override protected List<Arc> getModelSourceConnections() {
-	    Node model = (Node)getModel();
-	    return model.getOutgoingArcs();
-	}
-		 
-    @Override protected List<Arc> getModelTargetConnections() {
-    	Node model = (Node)getModel();
-	    return model.getIncomingArcs();
-    }
-		 
+	 
 	@Override public void performRequest(Request req) {
 	    if(req.getType() == RequestConstants.REQ_DIRECT_EDIT) {
 	    	performDirectEditing();
@@ -60,16 +48,16 @@ public abstract class NodeEditPart extends AbstractGraphicalEditPart implements 
 	
 	@Override protected void refreshVisuals() {
 	    NodeFigure figure = (NodeFigure)getFigure();
-	    Node model = (Node)getModel();
+	    NPNSymbolNodeSN model = (NPNSymbolNodeSN)getModel();
 	    NetEditPart parent = (NetEditPart) getParent();
 	    
 	    setName(figure, model);
 	    
-	    parent.setLayoutConstraint(this, figure, new Rectangle(model.getCoordinates(), getSize()));
+	    parent.setLayoutConstraint(this, figure, model.getConstraints());
 	}
 	
-	public void setName(NodeFigure figure, Node model) {
-		figure.getNameLabel().setText(model.getName());
+	public void setName(NodeFigure figure, NPNSymbolNodeSN model) {
+		figure.getNameLabel().setText(model.getModel().getName());
 	}
 	
 	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
@@ -94,14 +82,14 @@ public abstract class NodeEditPart extends AbstractGraphicalEditPart implements 
 	
 	@Override public void activate() {
 		if(!isActive()) {
-			((Node)getModel()).eAdapters().add(adapter);
+			((NPNSymbolNodeSN)getModel()).eAdapters().add(adapter);
 		}
 		super.activate();
 	}
 
 	@Override public void deactivate() {
 		if(isActive()) {
-		    ((Node)getModel()).eAdapters().remove(adapter);
+		    ((NPNSymbolNodeSN)getModel()).eAdapters().remove(adapter);
 		}
 		super.deactivate();
 	} 
@@ -114,7 +102,7 @@ public abstract class NodeEditPart extends AbstractGraphicalEditPart implements 
 		}
 
 		@Override public Notifier getTarget() {
-			return (Node)getModel();
+			return (NPNSymbolNodeSN)getModel();
 		}
 
 		@Override public void setTarget(Notifier newTarget) {
@@ -122,7 +110,7 @@ public abstract class NodeEditPart extends AbstractGraphicalEditPart implements 
 		}
 
 		@Override public boolean isAdapterForType(Object type) {
-			return type.equals(Node.class);
+			return type.equals(NPNSymbolNodeSN.class);
 		}
 	}
 }

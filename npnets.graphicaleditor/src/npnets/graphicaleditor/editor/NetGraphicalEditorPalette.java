@@ -30,7 +30,7 @@ public class NetGraphicalEditorPalette extends PaletteRoot {
   }
  
   private void addGroup() {
-    group = new PaletteGroup("HLPN Controls");
+    group = new PaletteGroup("Toolkit");
     add(group);
   }
  

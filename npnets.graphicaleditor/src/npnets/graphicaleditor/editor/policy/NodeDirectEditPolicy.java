@@ -5,8 +5,6 @@ import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
 
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-//import npn.model.highlevelnet.Node;
 import npnets.graphicaleditor.editor.command.NodeRenameCommand;
 import npnets.graphicaleditor.editor.figure.NodeFigure;
 

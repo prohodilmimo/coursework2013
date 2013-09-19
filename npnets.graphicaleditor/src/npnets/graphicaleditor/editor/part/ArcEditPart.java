@@ -12,10 +12,12 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.jface.viewers.TextCellEditor;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+
 import npnets.graphicaleditor.editor.figure.ArcFigure;
 import npnets.graphicaleditor.editor.figure.NodeFigure;
+
 import npnets.graphicaleditor.editor.policy.ArcConnectionEditPolicy;
 
 public class ArcEditPart extends AbstractConnectionEditPart {
@@ -47,8 +49,8 @@ public class ArcEditPart extends AbstractConnectionEditPart {
 	 
 	  @Override protected IFigure createFigure() {
 	    ArcFigure af = new ArcFigure();
-	    if (((Arc)getModel()).getName() != null)
-	    	af.setLabelText(((Arc)getModel()).getName());
+	    if (((NPNSymbolArcSN)getModel()).getModel().getName() != null)
+	    	af.setLabelText(((NPNSymbolArcSN)getModel()).getModel().getName());
 	    
 	    return af;
 	  }

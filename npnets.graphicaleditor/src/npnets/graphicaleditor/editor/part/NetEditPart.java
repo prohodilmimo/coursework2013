@@ -12,10 +12,9 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-//import npn.model.highlevelnet.Net;
-//import npn.model.highlevelnet.Node;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+
 import npnets.graphicaleditor.editor.policy.NetXYLayoutPolicy;
 
 public class NetEditPart extends AbstractGraphicalEditPart {
@@ -40,23 +39,23 @@ public class NetEditPart extends AbstractGraphicalEditPart {
 	  }
 	 
 	  @Override 
-	  protected List<Node> getModelChildren() {
-	    List<Node> retVal = new ArrayList<Node>();
-	    HighLevelPetriNet net = (HighLevelPetriNet) getModel();
+	  protected List<NPNSymbolNodeSN> getModelChildren() {
+	    List<NPNSymbolNodeSN> retVal = new ArrayList<NPNSymbolNodeSN>();
+	    NPNDiagramNetSystem net = (NPNDiagramNetSystem) getModel();
 	    retVal.addAll(net.getNodes());
 	    return retVal;
 	  }
 	 
 	  @Override public void activate() {
 	    if(!isActive()) {
-	      ((HighLevelPetriNet)getModel()).eAdapters().add(adapter);
+	      ((NPNDiagramNetSystem)getModel()).eAdapters().add(adapter);
 	    }
 	    super.activate();
 	  }
 	 
 	  @Override public void deactivate() {
 	    if(isActive()) {
-	      ((HighLevelPetriNet)getModel()).eAdapters().remove(adapter);
+	      ((NPNDiagramNetSystem)getModel()).eAdapters().remove(adapter);
 	    }
 	    super.deactivate();
 	  }
@@ -67,7 +66,7 @@ public class NetEditPart extends AbstractGraphicalEditPart {
 	    }
 	 
 	    @Override public Notifier getTarget() {
-	      return (HighLevelPetriNet)getModel();
+	      return (NPNDiagramNetSystem)getModel();
 	    }
 	 
 	    @Override public void setTarget(Notifier newTarget) {
@@ -75,7 +74,7 @@ public class NetEditPart extends AbstractGraphicalEditPart {
 	    }
 	 
 	    @Override public boolean isAdapterForType(Object type) {
-	      return type.equals(HighLevelPetriNet.class);
+	      return type.equals(NPNDiagramNetSystem.class);
 	    }
 	} 
 }

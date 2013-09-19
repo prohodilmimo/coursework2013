@@ -11,9 +11,6 @@ import ru.mathtech.npntool.npnets.npndiagrams.*;
 //import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
 //import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
 //import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
  
 public class NodeDeleteCommand extends Command {
  

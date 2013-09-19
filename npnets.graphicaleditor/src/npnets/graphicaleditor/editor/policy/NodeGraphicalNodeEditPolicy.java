@@ -6,26 +6,23 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
  
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
-//import npn.model.highlevelnet.Arc;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
-//import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-//import npn.model.highlevelnet.Node;
-import npnets.graphicaleditor.editor.command.ArcCreateCommand;
+
+import npnets.graphicaleditor.editor.command.ArcPTCreateCommand;
  
 public class NodeGraphicalNodeEditPolicy extends GraphicalNodeEditPolicy {
  
   @Override protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
     ArcCreateCommand result = (ArcCreateCommand) request.getStartCommand();
-    result.setTarget((Node)getHost().getModel());
+    result.setTarget((NPNSymbolNodeSN)getHost().getModel());
     return result;
   }
  
   @Override protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
     ArcCreateCommand result = new ArcCreateCommand();
-    result.setSource((Node)getHost().getModel());
-    result.setArc((Arc) request.getNewObject());
-    result.setNet(((Node)getHost().getModel()).getNet());
+    result.setSource((NPNSymbolNodeSN)getHost().getModel());
+    result.setArc((NPNSymbolArcSN) request.getNewObject());
+    result.setNet(((NPNSymbolNodeSN)getHost().getModel()).getDiagram());
     request.setStartCommand(result);
     return result;
   }
