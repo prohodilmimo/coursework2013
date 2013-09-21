@@ -157,9 +157,17 @@ import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.provider.NPNetsItem
 //import npn.model.globals.provider.GlobalsItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.provider.TokenExpressionsItemProviderAdapterFactory;
 
-import npnets.graphicaleditor.model.project.Project;
+//import npnets.graphicaleditor.model.project.Project;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolPlaceSN;
+import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
 
 //import npn.model.nestednet.SystemNet;
@@ -361,8 +369,10 @@ public class NetEditor extends MultiPageEditorPart
 	 * @generated
 	 */
 	protected boolean updateProblemIndication = true;
-	
-	protected Project project;
+
+	//TODO: here comes interesting part
+	protected NPnetMarked net;
+	protected NPNDiagramNetSystem netDiagram;
 
 	/**
 	 * Adapter used to update the problem indication when resources are demanded loaded.
@@ -973,6 +983,15 @@ public class NetEditor extends MultiPageEditorPart
 		}
 	}
 
+	public void createDiagram() {
+		netDiagram = net.getDiagramNetSystem();
+		/*netDiagram.setModel(net.getNet().getNetSystem());
+		for (Node n : netDiagram.getModel().getNodes()) {
+			if (n instanceof Place) 
+				netDiagram.getNodes().add(new NPNSymbolPSN());
+		}*/
+	}
+	
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc -->
@@ -984,8 +1003,10 @@ public class NetEditor extends MultiPageEditorPart
 		// Creates the model from the editor input
 		//
 		createModel();
-		
+			
 		setProject(editingDomain.getResourceSet().getResources().get(0).getContents().get(0));
+		
+		createDiagram();
 		
 		// Only creates the other pages if there is something that can be edited
 		//
@@ -1022,7 +1043,8 @@ public class NetEditor extends MultiPageEditorPart
 				int pageIndex = addPage(viewerPane.getControl());
 				setPageText(pageIndex, getString("_UI_SelectionPage_label")); //$NON-NLS-1$
 			}
-			for(HighLevelPetriNet n : project.getNets()) getEditor(n);
+			
+			getEditor();
 
 			getSite().getShell().getDisplay().asyncExec(new Runnable() {
 				public void run() {
@@ -1644,15 +1666,15 @@ public class NetEditor extends MultiPageEditorPart
 		
 	}	
 	
-	public void setProject(Object newProject){
-		this.project = (Project)newProject;
+	public void setProject(Object newNet){
+		this.net = (NPnetMarked)newNet;
 	}
 	
-	public Project getProject(){
-		return project;
+	public NPnetMarked getNet(){
+		return net;
 	}
 	
-	public void getEditor(HighLevelPetriNet selection){
+	public void getEditor(){
 		NetGraphicalViewer viewerPane = new NetGraphicalViewer();
 		int pageIndex=0;
 		try {
@@ -1660,9 +1682,9 @@ public class NetEditor extends MultiPageEditorPart
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		setPageText(pageIndex, "Net " + ((HighLevelPetriNet)selection).getName());
+		setPageText(pageIndex, "+");
 		GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
-		graphicalViewer.setContents(selection);
+		graphicalViewer.setContents(netDiagram);
 	}
 	
 }

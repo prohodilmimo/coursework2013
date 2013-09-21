@@ -292,7 +292,7 @@ public class NetActionBarContributor
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
 		}
-		if (selection instanceof HighLevelPetriNet )((NetEditor)activeEditorPart).getEditor((HighLevelPetriNet)selection);
+		//if (selection instanceof HighLevelPetriNet )((NetEditor)activeEditorPart).getEditor((HighLevelPetriNet)selection);
 	}
 
 	/**
