@@ -1,36 +1,41 @@
 package npnets.graphicaleditor.editor.command;
 
-import org.eclipse.gef.commands.Command;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.ArcTP;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Transition;
 
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolPlaceSN;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcTPSN;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
  
-public class ArcTPCreateCommand extends Command {
-   
-  private NPNSymbolTransitionSN source;
-  private NPNSymbolPlaceSN target;
-  private NPNSymbolArcTPSN arc;
-  private NPNDiagramNetSystem net;
- 
-  @Override
-  public boolean canExecute() {
-    return source != null && target != null && arc != null;
-  }
-   
+public class ArcTPCreateCommand extends ArcCreateCommand {
   @Override public void execute() {
-    arc.setSource(source);
-    arc.setTarget(target);
+    Arc newModel = HLPNFactory.eINSTANCE.createArcTP();
+    arc.setModel(newModel);
+	
+    ((NPNSymbolArcTPSN)arc).setSource((NPNSymbolTransitionSN)source);
+    ((NPNSymbolArcTPSN)arc).setTarget((NPNSymbolPlaceSN)target);
+    ((ArcTP)arc.getModel()).setSource((Transition)source.getModel());
+    ((ArcTP)arc.getModel()).setTarget((Place)target.getModel());
+    
     arc.setDiagram(net);
   }
  
   @Override public void undo() {
-    arc.getSource().getOutArcs().remove(arc);
-    arc.setSource(null);
-    arc.getTarget().getInArcs().remove(arc);
-    arc.setTarget(null);
-    arc.setDiagram(null);
+    ((Transition)((NPNSymbolArcTPSN)arc).getSource().getModel()).getOutArcs().remove(arc.getModel());
+	((ArcTP)arc.getModel()).setSource(null);
+	((NPNSymbolArcTPSN)arc).getSource().getOutArcs().remove(arc);
+	((NPNSymbolArcTPSN)arc).setSource(null);
+    
+    ((Place)((NPNSymbolArcTPSN)arc).getTarget().getModel()).getInArcs().remove(arc.getModel());
+    ((ArcTP)arc.getModel()).setTarget(null);
+    ((NPNSymbolArcTPSN)arc).getTarget().getInArcs().remove(arc);
+    ((NPNSymbolArcTPSN)arc).setTarget(null);
+    
+    ((NPNSymbolArcTPSN)arc).getModel().setNet(null);
+    ((NPNSymbolArcTPSN)arc).setDiagram(null);
   }
  
   public void setTarget(NPNSymbolPlaceSN target) {
@@ -40,13 +45,5 @@ public class ArcTPCreateCommand extends Command {
    
   public void setSource(NPNSymbolTransitionSN source) {
     this.source = source;
-  }
-   
-  public void setArc(NPNSymbolArcTPSN arc) {
-    this.arc = arc;
-  }
-   
-  public void setNet(NPNDiagramNetSystem net) {
-    this.net = net;
   }
 }

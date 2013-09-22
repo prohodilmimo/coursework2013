@@ -45,12 +45,4 @@ public class NodeCreateCommand extends Command {
   public void setNode(NPNSymbolNodeSN newNode) {
 	    this.newNode = newNode;
 	}
-  
-  /*public void setParent(HighLevelPetriNet net) {
-    this.net = net;
-  }
- 
-  public void setNode(Node newNode) {
-    this.newNode = newNode;
-  }*/
 }

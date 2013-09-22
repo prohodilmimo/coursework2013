@@ -956,8 +956,8 @@ public class NetEditor extends MultiPageEditorPart
 
 	public void createDiagram() {
 		netDiagram = net.getDiagramNetSystem();
-		/*netDiagram.setModel(net.getNet().getNetSystem());
-		for (Node n : netDiagram.getModel().getNodes()) {
+		netDiagram.setModel(net.getNet().getNetSystem());
+		/*for (Node n : netDiagram.getModel().getNodes()) {
 			if (n instanceof Place) 
 				netDiagram.getNodes().add(new NPNSymbolPSN());
 		}*/

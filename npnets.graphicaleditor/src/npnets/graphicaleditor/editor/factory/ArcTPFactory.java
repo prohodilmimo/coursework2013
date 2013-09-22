@@ -1,11 +1,9 @@
 package npnets.graphicaleditor.editor.factory;
 
-import org.eclipse.gef.requests.CreationFactory;
-
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcTPSN;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
  
-public class ArcTPFactory implements CreationFactory {
+public class ArcTPFactory extends ArcFactory {
  
   @Override public Object getNewObject() {
     return NPNDiagramsFactory.eINSTANCE.createNPNSymbolArcTPSN();

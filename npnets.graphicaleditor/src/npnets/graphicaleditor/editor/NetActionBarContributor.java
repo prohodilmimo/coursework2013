@@ -3,13 +3,6 @@ package npnets.graphicaleditor.editor;
 import java.util.ArrayList;
 import java.util.Collection;
 
-//import npn.model.Project;
-//import npn.model.highlevelnet.Net;
-//import npn.model.nestednet.SystemNet;
-import npnets.graphicaleditor.model.project.Project;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet;
-
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -21,7 +14,6 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
-import org.eclipse.gef.GraphicalViewer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
@@ -276,7 +268,6 @@ public class NetActionBarContributor
 			EditingDomain domain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain();
 			newChildDescriptors = domain.getNewChildDescriptors(object, null);
 			newSiblingDescriptors = domain.getNewChildDescriptors(null, object);
-			//if (object instanceof Net)((NPNEditor)activeEditorPart).getEditor((Net)object);
 		}
 
 		// Generate actions for selection; populate and redraw the menus.
@@ -292,7 +283,6 @@ public class NetActionBarContributor
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
 		}
-		//if (selection instanceof HighLevelPetriNet )((NetEditor)activeEditorPart).getEditor((HighLevelPetriNet)selection);
 	}
 
 	/**
