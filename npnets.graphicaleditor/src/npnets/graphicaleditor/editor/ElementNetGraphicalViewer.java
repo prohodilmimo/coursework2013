@@ -32,7 +32,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
-public class MarkingGraphicalViewer extends GraphicalEditorWithFlyoutPalette {
+public class ElementNetGraphicalViewer extends GraphicalEditorWithFlyoutPalette {
 	private HighLevelPetriNet net;
 	private ContextMenuProvider contextMenu;
 	private PropertySheetPage propertyPage;
@@ -40,7 +40,7 @@ public class MarkingGraphicalViewer extends GraphicalEditorWithFlyoutPalette {
 
 //-----------------Meta-------------------------	
 
-	public MarkingGraphicalViewer() {
+	public ElementNetGraphicalViewer() {
 	    setEditDomain(new DefaultEditDomain(this));
     }
 	
