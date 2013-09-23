@@ -971,29 +971,13 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		netDiagram = net.getDiagramNetSystem();
 		netDiagram.setModel(net.getNet().getNetSystem());
 		
-		/*SystemNetMultipageGraphicalViewer SNViewer = new SystemNetMultipageGraphicalViewer();
-		SNViewer.setModel(net);
-		IEditorPart[] editors = SNViewer.findEditors(getEditorInput());
-		for (int i = 0; i < editors.length; i++) {
-			try {
-				int pageIndex = addPage(editors[i], editors[i].getEditorInput());
-				setPageText(pageIndex, editors[i].getEditorInput().getName());
-			} catch (PartInitException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		
-		SystemNetMultipageViewerProvider SNMVProvider = new SystemNetMultipageViewerProvider();
-		//SNMVProvider.getTreeViewer(getSite().getPage(), NestedPetriNetSystemEditor.this);
-		
 		// Only creates the other pages if there is something that can be edited
 		//
 		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 			// Create a page for the selection tree view.
 			//
 			{
-				/*ViewerPane viewerPane = new ViewerPane(getSite().getPage(), NestedPetriNetSystemEditor.this) {
+				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), NestedPetriNetSystemEditor.this) {
 					@Override
 					public Viewer createViewer(Composite composite) {
 						Tree tree = new Tree(composite, SWT.MULTI);
@@ -1007,38 +991,35 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 					}
 				};
 				
+				viewerPane.createControl(getContainer());
+				
 				selectionViewer = (TreeViewer)viewerPane.getViewer();
 				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
 
 				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
 				selectionViewer.setInput(editingDomain.getResourceSet());
 				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-				*/
-				ViewerPane viewerPane = SNMVProvider.getTreeViewerPane(getSite().getPage(), NestedPetriNetSystemEditor.this);
 				
-				selectionViewer = SNMVProvider.getTreeViewer(adapterFactory, editingDomain);
-				
-				viewerPane.createControl(getContainer());
 				viewerPane.setTitle(editingDomain.getResourceSet());
 
 				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
 				createContextMenuFor(selectionViewer);
 				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, getString("_UI_SelectionPage_label")); //$NON-NLS-1$
+				setPageText(pageIndex, "Outline");
 			}
 			
 			{
-				NetGraphicalViewer viewerPane = SNMVProvider.getGraphicalViewer();
+				NetGraphicalViewer viewerPane = new NetGraphicalViewer();
 				int pageIndex=0;
 				try {
 					pageIndex = addPage(viewerPane, getEditorInput());
 				} catch (PartInitException e) {
 					e.printStackTrace();
 				}
-				setPageText(pageIndex, "+");
+				setPageText(pageIndex, "Editor");
 				GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
-				graphicalViewer.setContents(netDiagram);;
+				graphicalViewer.setContents(netDiagram);
 			}
 			
 			//getMarking();

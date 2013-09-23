@@ -102,11 +102,9 @@ public class CommonFactoryImpl extends EFactoryImpl implements CommonFactory {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
 	 */
 	public Rectangle createRectangleFromString(EDataType eDataType, String initialValue) {
 		if(initialValue == null) return null;
-		//initialValue.replaceAll("\\s", "");
 		String[] values = initialValue.replaceAll("[^0-9,.]|\\.\\d", "").split(",");
 		if(values.length != 4)  return null;
 		
