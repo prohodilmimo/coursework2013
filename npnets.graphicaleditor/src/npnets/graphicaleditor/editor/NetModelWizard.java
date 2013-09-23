@@ -102,7 +102,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final List<String> FILE_EXTENSIONS =
-		Collections.unmodifiableList(Arrays.asList(NetEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameExtensions").split("\\s*,\\s*"))); //$NON-NLS-1$ //$NON-NLS-2$
+		Collections.unmodifiableList(Arrays.asList(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameExtensions").split("\\s*,\\s*"))); //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * A formatted list of supported file extensions, suitable for display.
@@ -111,7 +111,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 	 * @generated
 	 */
 	public static final String FORMATTED_FILE_EXTENSIONS =
-		NetEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameExtensions").replaceAll("\\s*,\\s*", ", "); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 	/**
 	 * This caches an instance of the model package.
@@ -178,8 +178,8 @@ public class NetModelWizard extends Wizard implements INewWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.workbench = workbench;
 		this.selection = selection;
-		setWindowTitle(NetEditorPlugin.INSTANCE.getString("_UI_Wizard_label")); //$NON-NLS-1$
-		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(NetEditorPlugin.INSTANCE.getImage("full/wizban/NewNPN"))); //$NON-NLS-1$
+		setWindowTitle(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_Wizard_label")); //$NON-NLS-1$
+		setDefaultPageImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(NestedPetriNetSystemEditorPlugin.INSTANCE.getImage("full/wizban/NewNPN"))); //$NON-NLS-1$
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 							resource.save(options);
 						}
 						catch (Exception exception) {
-							NetEditorPlugin.INSTANCE.log(exception);
+							NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
 						}
 						finally {
 							progressMonitor.done();
@@ -295,14 +295,14 @@ public class NetModelWizard extends Wizard implements INewWizard {
 					 workbench.getEditorRegistry().getDefaultEditor(modelFile.getFullPath().toString()).getId());					 	 
 			}
 			catch (PartInitException exception) {
-				MessageDialog.openError(workbenchWindow.getShell(), NetEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage()); //$NON-NLS-1$
+				MessageDialog.openError(workbenchWindow.getShell(), NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_OpenEditorError_label"), exception.getMessage()); //$NON-NLS-1$
 				return false;
 			}
 
 			return true;
 		}
 		catch (Exception exception) {
-			NetEditorPlugin.INSTANCE.log(exception);
+			NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
 			return false;
 		}
 	}
@@ -336,7 +336,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 				String extension = new Path(getFileName()).getFileExtension();
 				if (extension == null || !FILE_EXTENSIONS.contains(extension)) {
 					String key = FILE_EXTENSIONS.size() > 1 ? "_WARN_FilenameExtensions" : "_WARN_FilenameExtension"; //$NON-NLS-1$ //$NON-NLS-2$
-					setErrorMessage(NetEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
+					setErrorMessage(NestedPetriNetSystemEditorPlugin.INSTANCE.getString(key, new Object [] { FORMATTED_FILE_EXTENSIONS }));
 					return false;
 				}
 				return true;
@@ -413,7 +413,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 
 			Label containerLabel = new Label(composite, SWT.LEFT);
 			{
-				containerLabel.setText(NetEditorPlugin.INSTANCE.getString("_UI_ModelObject")); //$NON-NLS-1$
+				containerLabel.setText(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_ModelObject")); //$NON-NLS-1$
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -439,7 +439,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 
 			Label encodingLabel = new Label(composite, SWT.LEFT);
 			{
-				encodingLabel.setText(NetEditorPlugin.INSTANCE.getString("_UI_XMLEncoding")); //$NON-NLS-1$
+				encodingLabel.setText(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_XMLEncoding")); //$NON-NLS-1$
 
 				GridData data = new GridData();
 				data.horizontalAlignment = GridData.FILL;
@@ -541,7 +541,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 				return npnetsModelPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 			catch(MissingResourceException mre) {
-				NetEditorPlugin.INSTANCE.log(mre);
+				NestedPetriNetSystemEditorPlugin.INSTANCE.log(mre);
 			}
 			return typeName;
 		}
@@ -554,7 +554,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 		protected Collection<String> getEncodings() {
 			if (encodings == null) {
 				encodings = new ArrayList<String>();
-				for (StringTokenizer stringTokenizer = new StringTokenizer(NetEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) //$NON-NLS-1$
+				for (StringTokenizer stringTokenizer = new StringTokenizer(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_XMLEncodingChoices")); stringTokenizer.hasMoreTokens(); ) //$NON-NLS-1$
 				{
 					encodings.add(stringTokenizer.nextToken());
 				}
@@ -574,9 +574,9 @@ public class NetModelWizard extends Wizard implements INewWizard {
 		// Create a page, set the title, and the initial model file name.
 		//
 		newFileCreationPage = new NPNModelWizardNewFileCreationPage("Whatever", selection); //$NON-NLS-1$
-		newFileCreationPage.setTitle(NetEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_label")); //$NON-NLS-1$
-		newFileCreationPage.setDescription(NetEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_description")); //$NON-NLS-1$
-		newFileCreationPage.setFileName(NetEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0)); //$NON-NLS-1$ //$NON-NLS-2$
+		newFileCreationPage.setTitle(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_label")); //$NON-NLS-1$
+		newFileCreationPage.setDescription(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_description")); //$NON-NLS-1$
+		newFileCreationPage.setFileName(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameDefaultBase") + "." + FILE_EXTENSIONS.get(0)); //$NON-NLS-1$ //$NON-NLS-2$
 		addPage(newFileCreationPage);
 
 		// Try and get the resource selection to determine a current directory for the file dialog.
@@ -602,7 +602,7 @@ public class NetModelWizard extends Wizard implements INewWizard {
 
 					// Make up a unique new name here.
 					//
-					String defaultModelBaseFilename = NetEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameDefaultBase"); //$NON-NLS-1$
+					String defaultModelBaseFilename = NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNEditorFilenameDefaultBase"); //$NON-NLS-1$
 					String defaultModelFilenameExtension = FILE_EXTENSIONS.get(0);
 					String modelFilename = defaultModelBaseFilename + "." + defaultModelFilenameExtension; //$NON-NLS-1$
 					for (int i = 1; ((IContainer)selectedResource).findMember(modelFilename) != null; ++i) {
@@ -613,8 +613,8 @@ public class NetModelWizard extends Wizard implements INewWizard {
 			}
 		}
 		initialObjectCreationPage = new NPNModelWizardInitialObjectCreationPage("Whatever2"); //$NON-NLS-1$
-		initialObjectCreationPage.setTitle(NetEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_label")); //$NON-NLS-1$
-		initialObjectCreationPage.setDescription(NetEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description")); //$NON-NLS-1$
+		initialObjectCreationPage.setTitle(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_NPNModelWizard_label")); //$NON-NLS-1$
+		initialObjectCreationPage.setDescription(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_Wizard_initial_object_description")); //$NON-NLS-1$
 		addPage(initialObjectCreationPage);
 	}
 

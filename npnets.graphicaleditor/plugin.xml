@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="npnets.graphicaleditor.editor.NetEditor"
+            class="npnets.graphicaleditor.editor.NestedPetriNetSystemEditor"
             contributorClass="npnets.graphicaleditor.editor.NetActionBarContributor"
             default="true"
             extensions="npnets"

@@ -2,11 +2,7 @@ package npnets.graphicaleditor.editor.part;
 
 import java.util.List;
 
-
-import npnets.graphicaleditor.model.project.Project;
 import ru.mathtech.npntool.npnets.npndiagrams.*;
-
-import npnets.graphicaleditor.editor.factory.NetFactory;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
