@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmfgraph:Canvas xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gmfgraph="http://www.eclipse.org/gmf/2006/GraphicalDefinition" name="highlevelnets">
+  <figures name="Default">
+    <figures xsi:type="gmfgraph:PolylineDecoration" name="PlaceOutArcsTargetDecoration"/>
+    <figures xsi:type="gmfgraph:PolylineDecoration" name="PlaceInArcsTargetDecoration"/>
+    <figures xsi:type="gmfgraph:PolylineDecoration" name="TransitionInArcsTargetDecoration"/>
+    <figures xsi:type="gmfgraph:PolylineDecoration" name="TransitionOutArcsTargetDecoration"/>
+    <descriptors name="PlaceFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle" name="PlaceFigure">
+        <layout xsi:type="gmfgraph:FlowLayout"/>
+        <children xsi:type="gmfgraph:Label" name="PlaceNameFigure" text="&lt;...>"/>
+      </actualFigure>
+      <accessors figure="//@figures.0/@descriptors.0/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors name="PlaceOutArcsFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="PlaceOutArcsFigure" targetDecoration="//@figures.0/@figures.0"/>
+    </descriptors>
+    <descriptors name="PlaceInArcsFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="PlaceInArcsFigure" targetDecoration="//@figures.0/@figures.1"/>
+    </descriptors>
+    <descriptors name="TransitionFigure">
+      <actualFigure xsi:type="gmfgraph:Rectangle" name="TransitionFigure">
+        <layout xsi:type="gmfgraph:FlowLayout"/>
+        <children xsi:type="gmfgraph:Label" name="TransitionNameFigure" text="&lt;...>"/>
+      </actualFigure>
+      <accessors figure="//@figures.0/@descriptors.3/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors name="TransitionInArcsFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="TransitionInArcsFigure" targetDecoration="//@figures.0/@figures.2"/>
+    </descriptors>
+    <descriptors name="TransitionOutArcsFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="TransitionOutArcsFigure" targetDecoration="//@figures.0/@figures.3"/>
+    </descriptors>
+    <descriptors name="ArcPTFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="ArcPTFigure">
+        <children xsi:type="gmfgraph:Label" name="ArcPTNameFigure" text="&lt;...>"/>
+      </actualFigure>
+      <accessors figure="//@figures.0/@descriptors.6/@actualFigure/@children.0"/>
+    </descriptors>
+    <descriptors name="ArcTPFigure">
+      <actualFigure xsi:type="gmfgraph:PolylineConnection" name="ArcTPFigure">
+        <children xsi:type="gmfgraph:Label" name="ArcTPNameFigure" text="&lt;...>"/>
+      </actualFigure>
+      <accessors figure="//@figures.0/@descriptors.7/@actualFigure/@children.0"/>
+    </descriptors>
+  </figures>
+  <nodes name="Place" figure="PlaceFigure"/>
+  <nodes name="Transition" figure="TransitionFigure"/>
+  <connections name="PlaceOutArcs" figure="PlaceOutArcsFigure"/>
+  <connections name="PlaceInArcs" figure="PlaceInArcsFigure"/>
+  <connections name="TransitionInArcs" figure="TransitionInArcsFigure"/>
+  <connections name="TransitionOutArcs" figure="TransitionOutArcsFigure"/>
+  <connections name="ArcPT" figure="ArcPTFigure"/>
+  <connections name="ArcTP" figure="ArcTPFigure"/>
+  <labels name="PlaceName" figure="PlaceFigure" accessor="//@figures.0/@descriptors.0/@accessors.0"/>
+  <labels name="TransitionName" figure="TransitionFigure" accessor="//@figures.0/@descriptors.3/@accessors.0"/>
+  <labels name="ArcPTName" figure="ArcPTFigure" accessor="//@figures.0/@descriptors.6/@accessors.0"/>
+  <labels name="ArcTPName" figure="ArcTPFigure" accessor="//@figures.0/@descriptors.7/@accessors.0"/>
+</gmfgraph:Canvas>

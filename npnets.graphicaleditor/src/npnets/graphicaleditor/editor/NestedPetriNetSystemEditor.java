@@ -154,7 +154,86 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  * @generated
  */
 public class NestedPetriNetSystemEditor extends MultiPageEditorPart
-	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ISelectionListener {
+	implements IEditingDomainProvider, ISelectionProvider, IMenuListener, IViewerProvider, IGotoMarker, ISelectionListener, CommandStackListener {
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider {
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory) {
+			super(adapterFactory);
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		@Override
+		public Object [] getChildren(Object object) {
+			Object parent = super.getParent(object);
+			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		@Override
+		public Object [] getElements(Object object) {
+			Object parent = super.getParent(object);
+			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		@Override
+		public Object getParent(Object object) {
+			return null;
+		}
+
+		/**
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		@Override
+		public boolean hasChildren(Object object) {
+			Object parent = super.getParent(object);
+			return parent != null;
+		}
+	}
+
+	/**
+	 * This looks up a string in the plugin's plugin.properties file.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static String getString(String key) {
+		return NestedPetriNetSystemEditorPlugin.INSTANCE.getString(key);
+	}
+
+	/**
+	 * This looks up a string in plugin.properties, making a substitution.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static String getString(String key, Object s1) {
+		return NestedPetriNetSystemEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
+	}
+
 	/**
 	 * This keeps track of the editing domain that is used to track all changes to the model.
 	 * <!-- begin-user-doc -->
@@ -324,7 +403,6 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	 * @generated
 	 */
 	protected Collection<Resource> savedResources = new ArrayList<Resource>();
-
 	/**
 	 * Map to store the diagnostic associated with a resource.
 	 * <!-- begin-user-doc -->
@@ -343,6 +421,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 
 	//TODO: here comes interesting part
 	protected NPnetMarked net;
+
 	protected NPNDiagramNetSystem netDiagram;
 
 	/**
@@ -396,7 +475,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 				basicUnsetTarget(target);
 			}
 		};
-
+  
 	/**
 	 * This listens for workspace changes.
 	 * <!-- begin-user-doc -->
@@ -412,6 +491,14 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 						protected ResourceSet resourceSet = editingDomain.getResourceSet();
 						protected Collection<Resource> changedResources = new ArrayList<Resource>();
 						protected Collection<Resource> removedResources = new ArrayList<Resource>();
+
+						public Collection<Resource> getChangedResources() {
+							return changedResources;
+						}
+
+						public Collection<Resource> getRemovedResources() {
+							return removedResources;
+						}
 
 						public boolean visit(IResourceDelta delta) {
 							if (delta.getResource().getType() == IResource.FILE) {
@@ -430,14 +517,6 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 							}
 
 							return true;
-						}
-
-						public Collection<Resource> getChangedResources() {
-							return changedResources;
-						}
-
-						public Collection<Resource> getRemovedResources() {
-							return removedResources;
 						}
 					}
 
@@ -473,6 +552,595 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 				}
 			}
 		};
+
+	protected NetGraphicalEditor graphicalEditor;
+
+	private NetSimpleGraphicalEditor gEditor;
+
+	/**
+	 * This creates a model editor.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NestedPetriNetSystemEditor() {
+		super();
+		initializeEditingDomain();
+	}
+
+	/**
+	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		selectionChangedListeners.add(listener);
+	}
+
+	/**
+	 * Returns a diagnostic describing the errors and warnings listed in the resource
+	 * and the specified exception (if any).
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
+		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
+			BasicDiagnostic basicDiagnostic =
+				new BasicDiagnostic
+					(Diagnostic.ERROR,
+					 "npn.model.editor", //$NON-NLS-1$
+					 0,
+					 getString("_UI_CreateModelError_message", resource.getURI()), //$NON-NLS-1$
+					 new Object [] { exception == null ? (Object)resource : exception });
+			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+			return basicDiagnostic;
+		}
+		else if (exception != null) {
+			return
+				new BasicDiagnostic
+					(Diagnostic.ERROR,
+					 "npn.model.editor", //$NON-NLS-1$
+					 0,
+					 getString("_UI_CreateModelError_message", resource.getURI()), //$NON-NLS-1$
+					 new Object[] { exception });
+		}
+		else {
+			return Diagnostic.OK_INSTANCE;
+		}
+	}
+
+	@Override
+	public void commandStackChanged(EventObject event) {
+	  if (this.equals(getSite().getPage().getActiveEditor())) {
+		    if (getGEFEditor().equals(getActiveEditor()))
+		    	getGEFEditor().commandStackChanged(event);
+		   }
+	}
+
+	/**
+	 * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createContextMenuFor(StructuredViewer viewer) {
+		MenuManager contextMenu = new MenuManager("#PopUp"); //$NON-NLS-1$
+		contextMenu.add(new Separator("additions")); //$NON-NLS-1$
+		contextMenu.setRemoveAllWhenShown(true);
+		contextMenu.addMenuListener(this);
+		Menu menu= contextMenu.createContextMenu(viewer.getControl());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
+
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
+		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
+	}
+
+	/**
+	 * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void createModel() {
+		URI resourceURI = EditUIUtil.getURI(getEditorInput());
+		Exception exception = null;
+		Resource resource = null;
+		try {
+			// Load the resource through the editing domain.
+			//
+			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
+		}
+		catch (Exception e) {
+			exception = e;
+			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+		}
+
+		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+		if (diagnostic.getSeverity() != Diagnostic.OK) {
+			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+		}
+		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+	}
+
+	/**
+	 * This is the method used by the framework to install your own controls.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void createPages() {
+		// Creates the model from the editor input
+		//
+		createModel();
+			
+		setNet(editingDomain.getResourceSet().getResources().get(0).getContents().get(0));
+		
+		netDiagram = net.getDiagramNetSystem();
+		netDiagram.setModel(net.getNet().getNetSystem());
+		
+		// Only creates the other pages if there is something that can be edited
+		//
+		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
+			// Create a page for the selection tree view.
+			//
+			{
+				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), NestedPetriNetSystemEditor.this) {
+					@Override
+					public Viewer createViewer(Composite composite) {
+						Tree tree = new Tree(composite, SWT.MULTI);
+						TreeViewer newTreeViewer = new TreeViewer(tree);
+						return newTreeViewer;
+					}
+					@Override
+					public void requestActivation() {
+						super.requestActivation();
+						setCurrentViewerPane(this);
+					}
+				};
+				
+				viewerPane.createControl(getContainer());
+				
+				selectionViewer = (TreeViewer)viewerPane.getViewer();
+				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+
+				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+				selectionViewer.setInput(editingDomain.getResourceSet());
+				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+				
+				viewerPane.setTitle(editingDomain.getResourceSet());
+
+				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
+
+				createContextMenuFor(selectionViewer);
+				int pageIndex = addPage(viewerPane.getControl());
+				setPageText(pageIndex, "Outline");
+			}
+			
+			{
+				gEditor = new NetSimpleGraphicalEditor();
+				graphicalEditor = new NetGraphicalEditor();
+				//graphicalEditor.createControl(getContainer());
+				//graphicalEditor.setContents(netDiagram);
+				//int pageIndex = addPage(graphicalEditor.getControl());
+				int pageIndex = 0;
+				try {
+					pageIndex = addPage(gEditor, getEditorInput());
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+				setPageText(pageIndex, "Editor");
+				//GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
+				//viewerPane.setContents(netDiagram);
+			}
+
+			getSite().getShell().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					setActivePage(0);
+				}
+			});
+		}
+		
+		
+		// Ensures that this editor will only display the page's tab
+		// area if there are more than one page
+		//
+		getContainer().addControlListener
+			(new ControlAdapter() {
+				boolean guard = false;
+				@Override
+				public void controlResized(ControlEvent event) {
+					if (!guard) {
+						guard = true;
+						hideTabs();
+						guard = false;
+					}
+				}
+			 });
+
+		getSite().getShell().getDisplay().asyncExec
+			(new Runnable() {
+				 public void run() {
+					 updateProblemIndication();
+				 }
+			 });
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void dispose() {
+		updateProblemIndication = false;
+
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
+
+		getSite().getPage().removePartListener(partListener);
+
+		adapterFactory.dispose();
+
+		if (getActionBarContributor().getActiveEditor() == this) {
+			getActionBarContributor().setActiveEditor(null);
+		}
+
+		if (propertySheetPage != null) {
+			propertySheetPage.dispose();
+		}
+
+		if (contentOutlinePage != null) {
+			contentOutlinePage.dispose();
+		}
+
+		super.dispose();
+	}
+
+	/**
+	 * This is for implementing {@link IEditorPart} and simply saves the model file.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+		// Save only resources that have actually changed.
+		//
+		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
+		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+
+		// Do the work within an operation because this is a long running activity that modifies the workbench.
+		//
+		WorkspaceModifyOperation operation =
+			new WorkspaceModifyOperation() {
+				// This is the method that gets invoked when the operation runs.
+				//
+				@Override
+				public void execute(IProgressMonitor monitor) {
+					// Save the resources to the file system.
+					//
+					boolean first = true;
+					for (Resource resource : editingDomain.getResourceSet().getResources()) {
+						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
+							try {
+								long timeStamp = resource.getTimeStamp();
+								resource.save(saveOptions);
+								if (resource.getTimeStamp() != timeStamp) {
+									savedResources.add(resource);
+								}
+							}
+							catch (Exception exception) {
+								resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+							}
+							first = false;
+						}
+					}
+				}
+			};
+
+		updateProblemIndication = false;
+		try {
+			// This runs the options, and shows progress.
+			//
+			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
+
+			// Refresh the necessary state.
+			//
+			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
+			firePropertyChange(IEditorPart.PROP_DIRTY);
+		}
+		catch (Exception exception) {
+			// Something went wrong that shouldn't.
+			//
+			NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
+		}
+		updateProblemIndication = true;
+		updateProblemIndication();
+	}
+
+	/**
+	 * This also changes the editor's input.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void doSaveAs() {
+		SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
+		saveAsDialog.open();
+		IPath path = saveAsDialog.getResult();
+		if (path != null) {
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if (file != null) {
+				doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new FileEditorInput(file));
+			}
+		}
+	}
+	
+	/*protected void createContextMenuFor(HLPNGraphicalViewer viewer) {
+		MenuManager contextMenu = new MenuManager("#PopUp"); //$NON-NLS-1$
+		contextMenu.add(new Separator("additions")); //$NON-NLS-1$
+		contextMenu.setRemoveAllWhenShown(true);
+		contextMenu.addMenuListener(this);
+		Menu menu = contextMenu.(viewer.getContextMenu());
+		viewer.getControl().setMenu(menu);
+		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
+
+		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
+		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
+		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
+		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
+	}*/
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void doSaveAs(URI uri, IEditorInput editorInput) {
+		(editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+		setInputWithNotify(editorInput);
+		setPartName(editorInput.getName());
+		IProgressMonitor progressMonitor =
+			getActionBars().getStatusLineManager() != null ?
+				getActionBars().getStatusLineManager().getProgressMonitor() :
+				new NullProgressMonitor();
+		doSave(progressMonitor);
+	}
+
+	/**
+	 * This is here for the listener to be able to call it.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+			@Override
+	protected void firePropertyChange(int action) {
+		super.firePropertyChange(action);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditingDomainActionBarContributor getActionBarContributor() {
+		return (EditingDomainActionBarContributor)getEditorSite().getActionBarContributor();
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IActionBars getActionBars() {
+		return getActionBarContributor().getActionBars();
+	}
+	
+	/**
+	 * This is how the framework determines which interfaces we implement.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object getAdapter(Class key) {
+		if (key.equals(IContentOutlinePage.class)) {
+			return showOutlineView() ? getContentOutlinePage() : null;
+		}
+		else if (key.equals(IPropertySheetPage.class)) {
+			return getPropertySheetPage();
+		}
+		else if (key.equals(IGotoMarker.class)) {
+			return this;
+		}
+		else {
+			return super.getAdapter(key);
+		}
+	}
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AdapterFactory getAdapterFactory() {
+		return adapterFactory;
+	}
+	
+	/**
+	 * This accesses a cached version of the content outliner.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IContentOutlinePage getContentOutlinePage() {
+		if (contentOutlinePage == null) {
+			// The content outline is just a tree.
+			//
+			class MyContentOutlinePage extends ContentOutlinePage {
+				@Override
+				public void createControl(Composite parent) {
+					super.createControl(parent);
+					contentOutlineViewer = getTreeViewer();
+					contentOutlineViewer.addSelectionChangedListener(this);
+
+					// Set up the tree viewer.
+					//
+					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
+					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
+					contentOutlineViewer.setInput(editingDomain.getResourceSet());
+
+					// Make sure our popups work.
+					//
+					createContextMenuFor(contentOutlineViewer);
+
+					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
+					  // Select the root object in the view.
+					  //
+					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
+					}
+				}
+
+				@Override
+				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
+					super.makeContributions(menuManager, toolBarManager, statusLineManager);
+					contentOutlineStatusLineManager = statusLineManager;
+				}
+
+				@Override
+				public void setActionBars(IActionBars actionBars) {
+					super.setActionBars(actionBars);
+					getActionBarContributor().shareGlobalActions(this, actionBars);
+				}
+			}
+
+			contentOutlinePage = new MyContentOutlinePage();
+
+			// Listen to selection so that we can handle it is a special way.
+			//
+			contentOutlinePage.addSelectionChangedListener
+				(new ISelectionChangedListener() {
+					 // This ensures that we handle selections correctly.
+					 //
+					 public void selectionChanged(SelectionChangedEvent event) {
+						 handleContentOutlineSelection(event.getSelection());
+					 }
+				 });
+		}
+
+		return contentOutlinePage;
+	}
+
+	/**
+	 * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
+	 * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
+	 * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EditingDomain getEditingDomain() {
+		return editingDomain;
+	}
+
+	protected NetGraphicalEditor getGEFEditor() {
+		return this.graphicalEditor;
+	}
+
+	public void getMarking(){
+		NetSimpleGraphicalEditor viewerPane = new NetSimpleGraphicalEditor();
+		int pageIndex=0;
+		try {
+			pageIndex = addPage(viewerPane, getEditorInput());
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+		setPageText(pageIndex, "-");
+		GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
+		graphicalViewer.setContents(netDiagram); 
+	}
+
+	public NPnetMarked getNet(){
+		return net;
+	}
+
+	/**
+	 * This accesses a cached version of the property sheet.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IPropertySheetPage getPropertySheetPage() {
+		if (propertySheetPage == null) {
+			propertySheetPage =
+				new ExtendedPropertySheetPage(editingDomain) {
+					@Override
+					public void setActionBars(IActionBars actionBars) {
+						super.setActionBars(actionBars);
+						getActionBarContributor().shareGlobalActions(this, actionBars);
+					}
+
+					@Override
+					public void setSelectionToViewer(List<?> selection) {
+						NestedPetriNetSystemEditor.this.setSelectionToViewer(selection);
+						NestedPetriNetSystemEditor.this.setFocus();
+					}
+				};
+			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
+		}
+
+		return propertySheetPage;
+	}
+
+	/**
+	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to return this editor's overall selection.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ISelection getSelection() {
+		return editorSelection;
+	}
+
+	/**
+	 * This returns the viewer as required by the {@link IViewerProvider} interface.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Viewer getViewer() {
+		return currentViewer;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void gotoMarker(IMarker marker) {
+		try {
+			if (marker.getType().equals(EValidator.MARKER)) {
+				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+				if (uriAttribute != null) {
+					URI uri = URI.createURI(uriAttribute);
+					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+					if (eObject != null) {
+					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
+					}
+				}
+			}
+		}
+		catch (CoreException exception) {
+			NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
+		}
+	}
 
 	/**
 	 * Handles activation of the editor or it's associated views.
@@ -545,58 +1213,40 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			updateProblemIndication();
 		}
 	}
-  
+
 	/**
-	 * Updates the problems indication with the information described in the specified diagnostic.
+	 * This deals with how we want selection in the outliner to affect the other views.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void updateProblemIndication() {
-		if (updateProblemIndication) {
-			BasicDiagnostic diagnostic =
-				new BasicDiagnostic
-					(Diagnostic.OK,
-					 "npn.model.editor", //$NON-NLS-1$
-					 0,
-					 null,
-					 new Object [] { editingDomain.getResourceSet() });
-			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
-				if (childDiagnostic.getSeverity() != Diagnostic.OK) {
-					diagnostic.add(childDiagnostic);
-				}
-			}
+	public void handleContentOutlineSelection(ISelection selection) {
+		if (currentViewerPane != null && !selection.isEmpty() && selection instanceof IStructuredSelection) {
+			Iterator<?> selectedElements = ((IStructuredSelection)selection).iterator();
+			if (selectedElements.hasNext()) {
+				// Get the first selected element.
+				//
+				Object selectedElement = selectedElements.next();
 
-			int lastEditorPage = getPageCount() - 1;
-			if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart) {
-				((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
-				if (diagnostic.getSeverity() != Diagnostic.OK) {
-					setActivePage(lastEditorPage);
-				}
-			}
-			else if (diagnostic.getSeverity() != Diagnostic.OK) {
-				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
-				problemEditorPart.setDiagnostic(diagnostic);
-				problemEditorPart.setMarkerHelper(markerHelper);
-				try {
-					addPage(++lastEditorPage, problemEditorPart, getEditorInput());
-					setPageText(lastEditorPage, problemEditorPart.getPartName());
-					setActivePage(lastEditorPage);
-					showTabs();
-				}
-				catch (PartInitException exception) {
-					NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
-				}
-			}
-
-			if (markerHelper.hasMarkers(editingDomain.getResourceSet())) {
-				markerHelper.deleteMarkers(editingDomain.getResourceSet());
-				if (diagnostic.getSeverity() != Diagnostic.OK) {
-					try {
-						markerHelper.createMarkers(diagnostic);
+				// If it's the selection viewer, then we want it to select the same selection as this selection.
+				//
+				if (currentViewerPane.getViewer() == selectionViewer) {
+					ArrayList<Object> selectionList = new ArrayList<Object>();
+					selectionList.add(selectedElement);
+					while (selectedElements.hasNext()) {
+						selectionList.add(selectedElements.next());
 					}
-					catch (CoreException exception) {
-						NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
+
+					// Set the selection to the widget.
+					//
+					selectionViewer.setSelection(new StructuredSelection(selectionList));
+				}
+				else {
+					// Set the input to the widget.
+					//
+					if (currentViewerPane.getViewer().getInput() != selectedElement) {
+						currentViewerPane.getViewer().setInput(selectedElement);
+						currentViewerPane.setTitle(selectedElement);
 					}
 				}
 			}
@@ -618,14 +1268,38 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	}
 
 	/**
-	 * This creates a model editor.
+	 * If there is just one page in the multi-page editor part,
+	 * this hides the single tab at the bottom.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NestedPetriNetSystemEditor() {
-		super();
-		initializeEditingDomain();
+	protected void hideTabs() {
+		if (getPageCount() <= 1) {
+			setPageText(0, ""); //$NON-NLS-1$
+			if (getContainer() instanceof CTabFolder) {
+				((CTabFolder)getContainer()).setTabHeight(1);
+				Point point = getContainer().getSize();
+				getContainer().setSize(point.x, point.y + 6);
+			}
+		}
+	}
+
+	/**
+	 * This is called during startup.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void init(IEditorSite site, IEditorInput editorInput) {
+		setSite(site);
+		setInputWithNotify(editorInput);
+		setPartName(editorInput.getName());
+		site.setSelectionProvider(this);
+		site.getPage().addPartListener(partListener);
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(this);
 	}
 
 	/**
@@ -681,125 +1355,91 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	}
 
 	/**
-	 * This is here for the listener to be able to call it.
+	 * This is for implementing {@link IEditorPart} and simply tests the command stack.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-			@Override
-	protected void firePropertyChange(int action) {
-		super.firePropertyChange(action);
+	@Override
+	public boolean isDirty() {
+		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
 	}
 
 	/**
-	 * This sets the selection into whichever viewer is active.
+	 * This returns whether something has been persisted to the URI of the specified resource.
+	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSelectionToViewer(Collection<?> collection) {
-		final Collection<?> theSelection = collection;
-		// Make sure it's okay.
-		//
-		if (theSelection != null && !theSelection.isEmpty()) {
-			Runnable runnable =
-				new Runnable() {
-					public void run() {
-						// Try to select the items in the current content viewer of the editor.
-						//
-						if (currentViewer != null) {
-							currentViewer.setSelection(new StructuredSelection(theSelection.toArray()), true);
-						}
-					}
-				};
-			getSite().getShell().getDisplay().asyncExec(runnable);
-		}
-	}
-
-	/**
-	 * This returns the editing domain as required by the {@link IEditingDomainProvider} interface.
-	 * This is important for implementing the static methods of {@link AdapterFactoryEditingDomain}
-	 * and for supporting {@link org.eclipse.emf.edit.ui.action.CommandAction}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EditingDomain getEditingDomain() {
-		return editingDomain;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider {
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory) {
-			super(adapterFactory);
-		}
-
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		@Override
-		public Object [] getElements(Object object) {
-			Object parent = super.getParent(object);
-			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
-		}
-
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		@Override
-		public Object [] getChildren(Object object) {
-			Object parent = super.getParent(object);
-			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
-		}
-
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		@Override
-		public boolean hasChildren(Object object) {
-			Object parent = super.getParent(object);
-			return parent != null;
-		}
-
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		@Override
-		public Object getParent(Object object) {
-			return null;
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCurrentViewerPane(ViewerPane viewerPane) {
-		if (currentViewerPane != viewerPane) {
-			if (currentViewerPane != null) {
-				currentViewerPane.showFocus(false);
+	protected boolean isPersisted(Resource resource) {
+		boolean result = false;
+		try {
+			InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
+			if (stream != null) {
+				result = true;
+				stream.close();
 			}
-			currentViewerPane = viewerPane;
 		}
-		setCurrentViewer(currentViewerPane.getViewer());
+		catch (IOException e) {
+			// Ignore
+		}
+		return result;
+	}
+
+	/**
+	 * This always returns true because it is not currently supported.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean isSaveAsAllowed() {
+		return true;
+	}
+
+	/**
+	 * This implements {@link org.eclipse.jface.action.IMenuListener} to help fill the context menus with contributions from the Edit menu.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void menuAboutToShow(IMenuManager menuManager) {
+		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
+	}
+
+	/**
+	 * This is used to track the active viewer.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected void pageChange(int pageIndex) {
+		super.pageChange(pageIndex);
+
+		if (contentOutlinePage != null) {
+			handleContentOutlineSelection(contentOutlinePage.getSelection());
+		}
+	}
+
+	/**
+	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
+		selectionChangedListeners.remove(listener);
+	}
+
+	@Override
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+	  if (this.equals(getSite().getPage().getActiveEditor())) {
+		    if (getGEFEditor().equals(getActiveEditor()))
+		       getGEFEditor().selectionChanged(getActiveEditor(), selection);
+		   }
+		
 	}
 
 	/**
@@ -849,601 +1489,18 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	}
 
 	/**
-	 * This returns the viewer as required by the {@link IViewerProvider} interface.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Viewer getViewer() {
-		return currentViewer;
-	}
-
-	/**
-	 * This creates a context menu for the viewer and adds a listener as well registering the menu for extension.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createContextMenuFor(StructuredViewer viewer) {
-		MenuManager contextMenu = new MenuManager("#PopUp"); //$NON-NLS-1$
-		contextMenu.add(new Separator("additions")); //$NON-NLS-1$
-		contextMenu.setRemoveAllWhenShown(true);
-		contextMenu.addMenuListener(this);
-		Menu menu= contextMenu.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
-
-		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
-		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
-		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
-	}
-	
-	/*protected void createContextMenuFor(HLPNGraphicalViewer viewer) {
-		MenuManager contextMenu = new MenuManager("#PopUp"); //$NON-NLS-1$
-		contextMenu.add(new Separator("additions")); //$NON-NLS-1$
-		contextMenu.setRemoveAllWhenShown(true);
-		contextMenu.addMenuListener(this);
-		Menu menu = contextMenu.(viewer.getContextMenu());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
-
-		int dndOperations = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-		Transfer[] transfers = new Transfer[] { LocalTransfer.getInstance() };
-		viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
-		viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
-	}*/
-	
-	/**
-	 * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void createModel() {
-		URI resourceURI = EditUIUtil.getURI(getEditorInput());
-		Exception exception = null;
-		Resource resource = null;
-		try {
-			// Load the resource through the editing domain.
-			//
-			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
-		}
-		catch (Exception e) {
-			exception = e;
-			resource = editingDomain.getResourceSet().getResource(resourceURI, false);
-		}
-
-		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
-		if (diagnostic.getSeverity() != Diagnostic.OK) {
-			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
-		}
-		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
-	}
-
-	/**
-	 * Returns a diagnostic describing the errors and warnings listed in the resource
-	 * and the specified exception (if any).
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) {
-		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty()) {
-			BasicDiagnostic basicDiagnostic =
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "npn.model.editor", //$NON-NLS-1$
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()), //$NON-NLS-1$
-					 new Object [] { exception == null ? (Object)resource : exception });
-			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
-			return basicDiagnostic;
-		}
-		else if (exception != null) {
-			return
-				new BasicDiagnostic
-					(Diagnostic.ERROR,
-					 "npn.model.editor", //$NON-NLS-1$
-					 0,
-					 getString("_UI_CreateModelError_message", resource.getURI()), //$NON-NLS-1$
-					 new Object[] { exception });
-		}
-		else {
-			return Diagnostic.OK_INSTANCE;
-		}
-	}
-
-	/**
-	 * This is the method used by the framework to install your own controls.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void createPages() {
-		// Creates the model from the editor input
-		//
-		createModel();
-			
-		setNet(editingDomain.getResourceSet().getResources().get(0).getContents().get(0));
-		
-		netDiagram = net.getDiagramNetSystem();
-		netDiagram.setModel(net.getNet().getNetSystem());
-		
-		// Only creates the other pages if there is something that can be edited
-		//
-		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
-			// Create a page for the selection tree view.
-			//
-			{
-				ViewerPane viewerPane = new ViewerPane(getSite().getPage(), NestedPetriNetSystemEditor.this) {
-					@Override
-					public Viewer createViewer(Composite composite) {
-						Tree tree = new Tree(composite, SWT.MULTI);
-						TreeViewer newTreeViewer = new TreeViewer(tree);
-						return newTreeViewer;
-					}
-					@Override
-					public void requestActivation() {
-						super.requestActivation();
-						setCurrentViewerPane(this);
-					}
-				};
-				
-				viewerPane.createControl(getContainer());
-				
-				selectionViewer = (TreeViewer)viewerPane.getViewer();
-				selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-
-				selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-				selectionViewer.setInput(editingDomain.getResourceSet());
-				selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-				
-				viewerPane.setTitle(editingDomain.getResourceSet());
-
-				new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
-
-				createContextMenuFor(selectionViewer);
-				int pageIndex = addPage(viewerPane.getControl());
-				setPageText(pageIndex, "Outline");
+	public void setCurrentViewerPane(ViewerPane viewerPane) {
+		if (currentViewerPane != viewerPane) {
+			if (currentViewerPane != null) {
+				currentViewerPane.showFocus(false);
 			}
-			
-			{
-				NetGraphicalViewer viewerPane = new NetGraphicalViewer();
-				int pageIndex=0;
-				try {
-					pageIndex = addPage(viewerPane, getEditorInput());
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-				setPageText(pageIndex, "Editor");
-				GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
-				graphicalViewer.setContents(netDiagram);
-			}
-			
-			//getMarking();
-
-			getSite().getShell().getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					setActivePage(0);
-				}
-			});
+			currentViewerPane = viewerPane;
 		}
-		
-		
-		// Ensures that this editor will only display the page's tab
-		// area if there are more than one page
-		//
-		getContainer().addControlListener
-			(new ControlAdapter() {
-				boolean guard = false;
-				@Override
-				public void controlResized(ControlEvent event) {
-					if (!guard) {
-						guard = true;
-						hideTabs();
-						guard = false;
-					}
-				}
-			 });
-
-		getSite().getShell().getDisplay().asyncExec
-			(new Runnable() {
-				 public void run() {
-					 updateProblemIndication();
-				 }
-			 });
-	}
-	
-	@Override
-	public void setPageText(int pageIndex, String text){
-		super.setPageText(pageIndex, text);
-	}
-	
-	/**
-	 * If there is just one page in the multi-page editor part,
-	 * this hides the single tab at the bottom.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void hideTabs() {
-		if (getPageCount() <= 1) {
-			setPageText(0, ""); //$NON-NLS-1$
-			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(1);
-				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y + 6);
-			}
-		}
-	}
-
-	/**
-	 * If there is more than one page in the multi-page editor part,
-	 * this shows the tabs at the bottom.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void showTabs() {
-		if (getPageCount() > 1) {
-			setPageText(0, getString("_UI_SelectionPage_label")); //$NON-NLS-1$
-			if (getContainer() instanceof CTabFolder) {
-				((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
-				Point point = getContainer().getSize();
-				getContainer().setSize(point.x, point.y - 6);
-			}
-		}
-	}
-
-	/**
-	 * This is used to track the active viewer.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	protected void pageChange(int pageIndex) {
-		super.pageChange(pageIndex);
-
-		if (contentOutlinePage != null) {
-			handleContentOutlineSelection(contentOutlinePage.getSelection());
-		}
-	}
-
-	/**
-	 * This is how the framework determines which interfaces we implement.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("rawtypes")
-	@Override
-	public Object getAdapter(Class key) {
-		if (key.equals(IContentOutlinePage.class)) {
-			return showOutlineView() ? getContentOutlinePage() : null;
-		}
-		else if (key.equals(IPropertySheetPage.class)) {
-			return getPropertySheetPage();
-		}
-		else if (key.equals(IGotoMarker.class)) {
-			return this;
-		}
-		else {
-			return super.getAdapter(key);
-		}
-	}
-
-	/**
-	 * This accesses a cached version of the content outliner.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IContentOutlinePage getContentOutlinePage() {
-		if (contentOutlinePage == null) {
-			// The content outline is just a tree.
-			//
-			class MyContentOutlinePage extends ContentOutlinePage {
-				@Override
-				public void createControl(Composite parent) {
-					super.createControl(parent);
-					contentOutlineViewer = getTreeViewer();
-					contentOutlineViewer.addSelectionChangedListener(this);
-
-					// Set up the tree viewer.
-					//
-					contentOutlineViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-					contentOutlineViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
-					contentOutlineViewer.setInput(editingDomain.getResourceSet());
-
-					// Make sure our popups work.
-					//
-					createContextMenuFor(contentOutlineViewer);
-
-					if (!editingDomain.getResourceSet().getResources().isEmpty()) {
-					  // Select the root object in the view.
-					  //
-					  contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
-					}
-				}
-
-				@Override
-				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager) {
-					super.makeContributions(menuManager, toolBarManager, statusLineManager);
-					contentOutlineStatusLineManager = statusLineManager;
-				}
-
-				@Override
-				public void setActionBars(IActionBars actionBars) {
-					super.setActionBars(actionBars);
-					getActionBarContributor().shareGlobalActions(this, actionBars);
-				}
-			}
-
-			contentOutlinePage = new MyContentOutlinePage();
-
-			// Listen to selection so that we can handle it is a special way.
-			//
-			contentOutlinePage.addSelectionChangedListener
-				(new ISelectionChangedListener() {
-					 // This ensures that we handle selections correctly.
-					 //
-					 public void selectionChanged(SelectionChangedEvent event) {
-						 handleContentOutlineSelection(event.getSelection());
-					 }
-				 });
-		}
-
-		return contentOutlinePage;
-	}
-
-	/**
-	 * This accesses a cached version of the property sheet.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IPropertySheetPage getPropertySheetPage() {
-		if (propertySheetPage == null) {
-			propertySheetPage =
-				new ExtendedPropertySheetPage(editingDomain) {
-					@Override
-					public void setSelectionToViewer(List<?> selection) {
-						NestedPetriNetSystemEditor.this.setSelectionToViewer(selection);
-						NestedPetriNetSystemEditor.this.setFocus();
-					}
-
-					@Override
-					public void setActionBars(IActionBars actionBars) {
-						super.setActionBars(actionBars);
-						getActionBarContributor().shareGlobalActions(this, actionBars);
-					}
-				};
-			propertySheetPage.setPropertySourceProvider(new AdapterFactoryContentProvider(adapterFactory));
-		}
-
-		return propertySheetPage;
-	}
-
-	/**
-	 * This deals with how we want selection in the outliner to affect the other views.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void handleContentOutlineSelection(ISelection selection) {
-		if (currentViewerPane != null && !selection.isEmpty() && selection instanceof IStructuredSelection) {
-			Iterator<?> selectedElements = ((IStructuredSelection)selection).iterator();
-			if (selectedElements.hasNext()) {
-				// Get the first selected element.
-				//
-				Object selectedElement = selectedElements.next();
-
-				// If it's the selection viewer, then we want it to select the same selection as this selection.
-				//
-				if (currentViewerPane.getViewer() == selectionViewer) {
-					ArrayList<Object> selectionList = new ArrayList<Object>();
-					selectionList.add(selectedElement);
-					while (selectedElements.hasNext()) {
-						selectionList.add(selectedElements.next());
-					}
-
-					// Set the selection to the widget.
-					//
-					selectionViewer.setSelection(new StructuredSelection(selectionList));
-				}
-				else {
-					// Set the input to the widget.
-					//
-					if (currentViewerPane.getViewer().getInput() != selectedElement) {
-						currentViewerPane.getViewer().setInput(selectedElement);
-						currentViewerPane.setTitle(selectedElement);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * This is for implementing {@link IEditorPart} and simply tests the command stack.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isDirty() {
-		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
-	}
-
-	/**
-	 * This is for implementing {@link IEditorPart} and simply saves the model file.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void doSave(IProgressMonitor progressMonitor) {
-		// Save only resources that have actually changed.
-		//
-		final Map<Object, Object> saveOptions = new HashMap<Object, Object>();
-		saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-
-		// Do the work within an operation because this is a long running activity that modifies the workbench.
-		//
-		WorkspaceModifyOperation operation =
-			new WorkspaceModifyOperation() {
-				// This is the method that gets invoked when the operation runs.
-				//
-				@Override
-				public void execute(IProgressMonitor monitor) {
-					// Save the resources to the file system.
-					//
-					boolean first = true;
-					for (Resource resource : editingDomain.getResourceSet().getResources()) {
-						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource)) {
-							try {
-								long timeStamp = resource.getTimeStamp();
-								resource.save(saveOptions);
-								if (resource.getTimeStamp() != timeStamp) {
-									savedResources.add(resource);
-								}
-							}
-							catch (Exception exception) {
-								resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
-							}
-							first = false;
-						}
-					}
-				}
-			};
-
-		updateProblemIndication = false;
-		try {
-			// This runs the options, and shows progress.
-			//
-			new ProgressMonitorDialog(getSite().getShell()).run(true, false, operation);
-
-			// Refresh the necessary state.
-			//
-			((BasicCommandStack)editingDomain.getCommandStack()).saveIsDone();
-			firePropertyChange(IEditorPart.PROP_DIRTY);
-		}
-		catch (Exception exception) {
-			// Something went wrong that shouldn't.
-			//
-			NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
-		}
-		updateProblemIndication = true;
-		updateProblemIndication();
-	}
-
-	/**
-	 * This returns whether something has been persisted to the URI of the specified resource.
-	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected boolean isPersisted(Resource resource) {
-		boolean result = false;
-		try {
-			InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
-			if (stream != null) {
-				result = true;
-				stream.close();
-			}
-		}
-		catch (IOException e) {
-			// Ignore
-		}
-		return result;
-	}
-
-	/**
-	 * This always returns true because it is not currently supported.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public boolean isSaveAsAllowed() {
-		return true;
-	}
-
-	/**
-	 * This also changes the editor's input.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void doSaveAs() {
-		SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
-		saveAsDialog.open();
-		IPath path = saveAsDialog.getResult();
-		if (path != null) {
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if (file != null) {
-				doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new FileEditorInput(file));
-			}
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void doSaveAs(URI uri, IEditorInput editorInput) {
-		(editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
-		setInputWithNotify(editorInput);
-		setPartName(editorInput.getName());
-		IProgressMonitor progressMonitor =
-			getActionBars().getStatusLineManager() != null ?
-				getActionBars().getStatusLineManager().getProgressMonitor() :
-				new NullProgressMonitor();
-		doSave(progressMonitor);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void gotoMarker(IMarker marker) {
-		try {
-			if (marker.getType().equals(EValidator.MARKER)) {
-				String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
-				if (uriAttribute != null) {
-					URI uri = URI.createURI(uriAttribute);
-					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-					if (eObject != null) {
-					  setSelectionToViewer(Collections.singleton(editingDomain.getWrapper(eObject)));
-					}
-				}
-			}
-		}
-		catch (CoreException exception) {
-			NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
-		}
-	}
-
-	/**
-	 * This is called during startup.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void init(IEditorSite site, IEditorInput editorInput) {
-		setSite(site);
-		setInputWithNotify(editorInput);
-		setPartName(editorInput.getName());
-		site.setSelectionProvider(this);
-		site.getPage().addPartListener(partListener);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
+		setCurrentViewer(currentViewerPane.getViewer());
 	}
 
 	/**
@@ -1461,34 +1518,20 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		}
 	}
 
-	/**
-	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		selectionChangedListeners.add(listener);
+	public void setNet(Object newNet){
+		this.net = (NPnetMarked)newNet;
+		//TODO: Check.
+		if (((NPnetMarked)newNet).getDiagramNetSystem() == null)
+			this.net.setDiagramNetSystem(NPNDiagramsFactory.eINSTANCE.createNPNDiagramNetSystem());
+		if (((NPnetMarked)newNet).getNet() == null)
+			this.net.setNet(NPNetsFactory.eINSTANCE.createNPnet());
+		if (this.net.getNet().getNetSystem() == null)
+			this.net.getNet().setNetSystem(HLPNFactory.eINSTANCE.createHighLevelPetriNet());
 	}
 
-	/**
-	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void removeSelectionChangedListener(ISelectionChangedListener listener) {
-		selectionChangedListeners.remove(listener);
-	}
-
-	/**
-	 * This implements {@link org.eclipse.jface.viewers.ISelectionProvider} to return this editor's overall selection.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ISelection getSelection() {
-		return editorSelection;
+	@Override
+	public void setPageText(int pageIndex, String text){
+		super.setPageText(pageIndex, text);
 	}
 
 	/**
@@ -1507,6 +1550,31 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		setStatusLineManager(selection);
 	}
 
+	/**
+	 * This sets the selection into whichever viewer is active.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSelectionToViewer(Collection<?> collection) {
+		final Collection<?> theSelection = collection;
+		// Make sure it's okay.
+		//
+		if (theSelection != null && !theSelection.isEmpty()) {
+			Runnable runnable =
+				new Runnable() {
+					public void run() {
+						// Try to select the items in the current content viewer of the editor.
+						//
+						if (currentViewer != null) {
+							currentViewer.setSelection(new StructuredSelection(theSelection.toArray()), true);
+						}
+					}
+				};
+			getSite().getShell().getDisplay().asyncExec(runnable);
+		}
+	}	
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1540,94 +1608,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			}
 		}
 	}
-
-	/**
-	 * This looks up a string in the plugin's plugin.properties file.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static String getString(String key) {
-		return NestedPetriNetSystemEditorPlugin.INSTANCE.getString(key);
-	}
-
-	/**
-	 * This looks up a string in plugin.properties, making a substitution.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private static String getString(String key, Object s1) {
-		return NestedPetriNetSystemEditorPlugin.INSTANCE.getString(key, new Object [] { s1 });
-	}
-
-	/**
-	 * This implements {@link org.eclipse.jface.action.IMenuListener} to help fill the context menus with contributions from the Edit menu.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void menuAboutToShow(IMenuManager menuManager) {
-		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EditingDomainActionBarContributor getActionBarContributor() {
-		return (EditingDomainActionBarContributor)getEditorSite().getActionBarContributor();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IActionBars getActionBars() {
-		return getActionBarContributor().getActionBars();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AdapterFactory getAdapterFactory() {
-		return adapterFactory;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public void dispose() {
-		updateProblemIndication = false;
-
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
-
-		getSite().getPage().removePartListener(partListener);
-
-		adapterFactory.dispose();
-
-		if (getActionBarContributor().getActiveEditor() == this) {
-			getActionBarContributor().setActiveEditor(null);
-		}
-
-		if (propertySheetPage != null) {
-			propertySheetPage.dispose();
-		}
-
-		if (contentOutlinePage != null) {
-			contentOutlinePage.dispose();
-		}
-
-		super.dispose();
-	}
-
+	
 	/**
 	 * Returns whether the outline view should be presented to the user.
 	 * <!-- begin-user-doc -->
@@ -1637,39 +1618,80 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	protected boolean showOutlineView() {
 		return true;
 	}
-
-	@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		// TODO Auto-generated method stub
-		
-	}	
 	
-	public void setNet(Object newNet){
-		this.net = (NPnetMarked)newNet;
-		//TODO: Check.
-		if (((NPnetMarked)newNet).getDiagramNetSystem() == null)
-			this.net.setDiagramNetSystem(NPNDiagramsFactory.eINSTANCE.createNPNDiagramNetSystem());
-		if (((NPnetMarked)newNet).getNet() == null)
-			this.net.setNet(NPNetsFactory.eINSTANCE.createNPnet());
-		if (this.net.getNet().getNetSystem() == null)
-			this.net.getNet().setNetSystem(HLPNFactory.eINSTANCE.createHighLevelPetriNet());
-	}
-	
-	public NPnetMarked getNet(){
-		return net;
-	}
-	
-	public void getMarking(){
-		ElementNetGraphicalViewer viewerPane = new ElementNetGraphicalViewer();
-		int pageIndex=0;
-		try {
-			pageIndex = addPage(viewerPane, getEditorInput());
-		} catch (PartInitException e) {
-			e.printStackTrace();
+	/**
+	 * If there is more than one page in the multi-page editor part,
+	 * this shows the tabs at the bottom.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void showTabs() {
+		if (getPageCount() > 1) {
+			setPageText(0, getString("_UI_SelectionPage_label")); //$NON-NLS-1$
+			if (getContainer() instanceof CTabFolder) {
+				((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+				Point point = getContainer().getSize();
+				getContainer().setSize(point.x, point.y - 6);
+			}
 		}
-		setPageText(pageIndex, "-");
-		GraphicalViewer graphicalViewer = (GraphicalViewer) viewerPane.getAdapter(GraphicalViewer.class);
-		graphicalViewer.setContents(netDiagram); 
+	}
+
+	/**
+	 * Updates the problems indication with the information described in the specified diagnostic.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void updateProblemIndication() {
+		if (updateProblemIndication) {
+			BasicDiagnostic diagnostic =
+				new BasicDiagnostic
+					(Diagnostic.OK,
+					 "npn.model.editor", //$NON-NLS-1$
+					 0,
+					 null,
+					 new Object [] { editingDomain.getResourceSet() });
+			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values()) {
+				if (childDiagnostic.getSeverity() != Diagnostic.OK) {
+					diagnostic.add(childDiagnostic);
+				}
+			}
+
+			int lastEditorPage = getPageCount() - 1;
+			if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart) {
+				((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+				if (diagnostic.getSeverity() != Diagnostic.OK) {
+					setActivePage(lastEditorPage);
+				}
+			}
+			else if (diagnostic.getSeverity() != Diagnostic.OK) {
+				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
+				problemEditorPart.setDiagnostic(diagnostic);
+				problemEditorPart.setMarkerHelper(markerHelper);
+				try {
+					addPage(++lastEditorPage, problemEditorPart, getEditorInput());
+					setPageText(lastEditorPage, problemEditorPart.getPartName());
+					setActivePage(lastEditorPage);
+					showTabs();
+				}
+				catch (PartInitException exception) {
+					NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
+				}
+			}
+
+			if (markerHelper.hasMarkers(editingDomain.getResourceSet())) {
+				markerHelper.deleteMarkers(editingDomain.getResourceSet());
+				if (diagnostic.getSeverity() != Diagnostic.OK) {
+					try {
+						markerHelper.createMarkers(diagnostic);
+					}
+					catch (CoreException exception) {
+						NestedPetriNetSystemEditorPlugin.INSTANCE.log(exception);
+					}
+				}
+			}
+		}
 	}
 	
 }

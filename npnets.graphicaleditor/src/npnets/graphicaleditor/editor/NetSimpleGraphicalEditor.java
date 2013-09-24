@@ -3,6 +3,7 @@ package npnets.graphicaleditor.editor;
 import java.util.EventObject;
 
 import ru.mathtech.npntool.npnets.highlevelnets.marking.Marking;
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
 //import npn.model.highlevelnet.Net;
 //import npn.model.provider.NPNItemProviderAdapterFactory;
@@ -32,7 +33,7 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
-public class ElementNetGraphicalViewer extends GraphicalEditorWithFlyoutPalette {
+public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	private HighLevelPetriNet net;
 	private ContextMenuProvider contextMenu;
 	private PropertySheetPage propertyPage;
@@ -40,7 +41,7 @@ public class ElementNetGraphicalViewer extends GraphicalEditorWithFlyoutPalette 
 
 //-----------------Meta-------------------------	
 
-	public ElementNetGraphicalViewer() {
+	public NetSimpleGraphicalEditor() {
 	    setEditDomain(new DefaultEditDomain(this));
     }
 	
