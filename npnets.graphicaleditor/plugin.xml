@@ -4,12 +4,12 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="npnets.graphicaleditor.editor.NestedPetriNetSystemEditor"
-            contributorClass="npnets.graphicaleditor.editor.NetActionBarContributor"
+            class="npnets.complexeditor.NestedPetriNetSystemEditor"
+            contributorClass="npnets.complexeditor.NestedPetriNetSystemActionBarContributor"
             default="true"
             extensions="npnets"
             id="npnets.graphicaleditor.editorID"
-            name="NPN GEF Edtior">
+            name="Dvoryansky&apos;s Nets Complex Edtior">
       </editor>
    </extension>
 </plugin>
