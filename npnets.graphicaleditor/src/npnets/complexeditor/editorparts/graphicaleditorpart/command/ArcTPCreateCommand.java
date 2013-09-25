@@ -1,8 +1,6 @@
 package npnets.complexeditor.editorparts.graphicaleditorpart.command;
 
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Arc;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.ArcTP;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Transition;
 
@@ -11,10 +9,7 @@ import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcTPSN;
  
 public class ArcTPCreateCommand extends ArcCreateCommand {
-  @Override public void execute() {
-    Arc newModel = HLPNFactory.eINSTANCE.createArcTP();
-    arc.setModel(newModel);
-	
+  @Override public void execute() {	
     ((NPNSymbolArcTPSN)arc).setSource((NPNSymbolTransitionSN)source);
     ((NPNSymbolArcTPSN)arc).setTarget((NPNSymbolPlaceSN)target);
     ((ArcTP)arc.getModel()).setSource((Transition)source.getModel());
@@ -42,7 +37,6 @@ public class ArcTPCreateCommand extends ArcCreateCommand {
   }
  
   public void setTarget(NPNSymbolPlaceSN target) {
-	  //this.target = target.getClass() != this.source.getClass() ? target : null;
 	  this.target = target;
   }
    

@@ -39,7 +39,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -55,13 +54,11 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -102,7 +99,6 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
-import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
@@ -113,41 +109,22 @@ import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editparts.LayerManager;
-import org.eclipse.gef.ui.parts.GraphicalEditor;
-import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 
-//import npn.model.provider.NPNItemProviderAdapterFactory;
 //import ru.mathtech.npntool.npnets.*;
 
-
-
-//import npn.model.commons.provider.CommonsItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.common.provider.CommonItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.provider.NPNetsItemProviderAdapterFactory;
-//import npn.model.globals.provider.GlobalsItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.provider.TokenExpressionsItemProviderAdapterFactory;
 
-//import npnets.graphicaleditor.model.project.Project;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolPlaceSN;
+
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPNetsFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
+
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
-
-//import npn.model.nestednet.SystemNet;
-//import npn.model.nestednet.provider.NestednetItemProviderAdapterFactory;
-
-
 
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
@@ -557,9 +534,9 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			}
 		};
 
-	protected NetGraphicalEditor graphicalEditor;
+	//protected NetGraphicalEditor graphicalEditor;
 
-	private NetSimpleGraphicalEditor gEditor;
+	protected NetSimpleGraphicalEditor gEditor;
 
 	/**
 	 * This creates a model editor.
@@ -669,7 +646,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
 	}
 
-	ModelTreeEditorPart mtEditorPart;
+	protected ModelTreeEditorPart mtEditorPart;
 	
 	/**
 	 * This is the method used by the framework to install your own controls.
@@ -760,9 +737,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			 });
 	}
 
-	private GraphicalViewer graphicalViewer;
-
-	private MultiPageSelectionProvider selectionProvider;
+	protected MultiPageSelectionProvider selectionProvider;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -1433,38 +1408,9 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		// If it is changing...
 		//
 		if (currentViewer != viewer) {
-			/*if (selectionChangedListener == null) {
-				// Create the listener on demand.
-				//
-				selectionChangedListener =
-					new ISelectionChangedListener() {
-						// This just notifies those things that are affected by the section.
-						//
-						public void selectionChanged(SelectionChangedEvent selectionChangedEvent) {
-							setSelection(selectionChangedEvent.getSelection());
-						}
-					};
-			}
-
-			// Stop listening to the old one.
-			//
-			if (currentViewer != null) {
-				currentViewer.removeSelectionChangedListener(selectionChangedListener);
-			}
-
-			// Start listening to the new one.
-			//
-			if (viewer != null) {
-				viewer.addSelectionChangedListener(selectionChangedListener);
-			}*/
-
 			// Remember it.
 			//
 			currentViewer = viewer;
-
-			// Set the editors selection based on the current viewer's selection.
-			//
-			//setSelection(currentViewer == null ? StructuredSelection.EMPTY : currentViewer.getSelection());
 		}
 	}
 

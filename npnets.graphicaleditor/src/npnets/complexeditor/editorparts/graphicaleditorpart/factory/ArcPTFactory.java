@@ -1,12 +1,15 @@
 package npnets.complexeditor.editorparts.graphicaleditorpart.factory;
 
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcPTSN;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
  
 public class ArcPTFactory extends ArcFactory {
  
   @Override public Object getNewObject() {
-    return NPNDiagramsFactory.eINSTANCE.createNPNSymbolArcPTSN();
+	Object newObject = NPNDiagramsFactory.eINSTANCE.createNPNSymbolArcPTSN();
+	((NPNSymbolArcPTSN)newObject).setModel(HLPNFactory.eINSTANCE.createArcPT());
+    return newObject;
   }
  
   @Override public Object getObjectType() {

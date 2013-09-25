@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Nested Petri Nets GEF Editor
 Bundle-SymbolicName: npnets.graphicaleditor;singleton:=true
 Bundle-Version: 0.0.1
-Bundle-Activator: npnets.complexeditor.Activator
+Bundle-Activator: npnets.complexeditor.NestedPetriNetSystemEditorPlugin$Implementation
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.gef,

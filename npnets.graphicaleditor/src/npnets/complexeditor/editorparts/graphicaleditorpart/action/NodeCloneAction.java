@@ -7,7 +7,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-import npnets.complexeditor.editorparts.graphicaleditorpart.NetSimpleGraphicalEditor;
 import npnets.complexeditor.editorparts.graphicaleditorpart.part.NodeEditPart;
 
 public class NodeCloneAction extends SelectionAction {

@@ -7,7 +7,6 @@ import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
-import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.ui.actions.ActionFactory;
@@ -15,11 +14,9 @@ import org.eclipse.ui.actions.ActionFactory;
 public class NetGraphicalEditorContextMenuProvider  extends ContextMenuProvider {
  
     private ActionRegistry actionRegistry;
-    private EditPartViewer viewer;
  
     public NetGraphicalEditorContextMenuProvider(EditPartViewer viewer, final ActionRegistry actionRegistry) {
     	super(viewer);
-        this.viewer = viewer;
         setActionRegistry(actionRegistry);
     }
  
@@ -38,7 +35,6 @@ public class NetGraphicalEditorContextMenuProvider  extends ContextMenuProvider 
         action = getActionRegistry().getAction(ActionFactory.SELECT_ALL.getId());
         menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
         action = getActionRegistry().getAction(NodeCloneAction.CLONE);
-        //((SelectionAction) action).setSelectionProvider(viewer);
         menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
         action = getActionRegistry().getAction(PlaceAddTokenAction.ADD_TOKEN);
         menu.appendToGroup(GEFActionConstants.GROUP_ADD, action);

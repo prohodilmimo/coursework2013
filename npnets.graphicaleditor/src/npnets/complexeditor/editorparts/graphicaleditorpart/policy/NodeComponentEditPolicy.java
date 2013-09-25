@@ -17,8 +17,6 @@ import npnets.complexeditor.editorparts.graphicaleditorpart.command.PlaceAddSyst
 import npnets.complexeditor.editorparts.graphicaleditorpart.command.PlaceAddTokenCommand;
 import npnets.complexeditor.editorparts.graphicaleditorpart.factory.TokenFactory;
 
-
-
 public class NodeComponentEditPolicy extends ComponentEditPolicy {
 	@Override protected Command createDeleteCommand(GroupRequest deleteRequest) {
 		NodeDeleteCommand nodeDeleteCommand = new NodeDeleteCommand();

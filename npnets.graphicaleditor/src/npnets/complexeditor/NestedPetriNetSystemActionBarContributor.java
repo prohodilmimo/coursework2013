@@ -282,12 +282,7 @@ public class NestedPetriNetSystemActionBarContributor
 		if (createSiblingMenuManager != null) {
 			populateManager(createSiblingMenuManager, createSiblingActions, null);
 			createSiblingMenuManager.update(true);
-		}
-		
-		/*if (((NetSimpleGraphicalEditor)event.getSource()).equals(((NestedPetriNetSystemEditor)this.getActiveEditor()).getGEFEditor())) {
-			((NestedPetriNetSystemEditor)this.getActiveEditor()).getGEFEditor().selectionChanged(activeEditorPart, selection);
-		}*/
-			
+		}	
 	}
 
 	/**

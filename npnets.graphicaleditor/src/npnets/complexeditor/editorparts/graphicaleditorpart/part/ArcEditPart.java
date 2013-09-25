@@ -2,9 +2,6 @@ package npnets.complexeditor.editorparts.graphicaleditorpart.part;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
-import org.eclipse.draw2d.PolylineConnection;
-import org.eclipse.draw2d.PolylineDecoration;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
@@ -13,10 +10,8 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.jface.viewers.TextCellEditor;
 
 import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolArcSN;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
 
 import npnets.complexeditor.editorparts.graphicaleditorpart.figure.ArcFigure;
-import npnets.complexeditor.editorparts.graphicaleditorpart.figure.NodeFigure;
 import npnets.complexeditor.editorparts.graphicaleditorpart.policy.ArcConnectionEditPolicy;
 
 

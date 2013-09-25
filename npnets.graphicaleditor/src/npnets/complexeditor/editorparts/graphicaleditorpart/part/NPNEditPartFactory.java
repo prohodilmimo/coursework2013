@@ -1,7 +1,5 @@
 package npnets.complexeditor.editorparts.graphicaleditorpart.part;
 
-import java.util.List;
-
 import ru.mathtech.npntool.npnets.npndiagrams.*;
 
 import org.eclipse.gef.EditPart;

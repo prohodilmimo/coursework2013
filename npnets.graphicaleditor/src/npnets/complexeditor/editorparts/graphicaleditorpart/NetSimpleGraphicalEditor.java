@@ -1,38 +1,24 @@
 package npnets.complexeditor.editorparts.graphicaleditorpart;
 
-import java.util.EventObject;
-
-import ru.mathtech.npntool.npnets.highlevelnets.marking.Marking;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
-import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
-//import npn.model.highlevelnet.Net;
-//import npn.model.provider.NPNItemProviderAdapterFactory;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.NodeCloneAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTokenAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.part.NPNEditPartFactory;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor.PropertyValueWrapper;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.SelectionManager;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetEntry;
 import org.eclipse.gef.ui.properties.UndoablePropertySheetPage;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.dialogs.PropertyPage;
-import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -41,8 +27,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 
 public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	private ContextMenuProvider contextMenu;
-	//private PropertySheetPage propertyPage;
-	//private Resource opdResource;
+	private PropertySheetPage propertyPage;
 
 //-----------------Meta-------------------------	
 
@@ -89,7 +74,6 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	protected void createActions() {
 		super.createActions();
 		SelectionAction action = new NodeCloneAction(this);
-		//action.setSelectionProvider(getGraphicalViewer());
 	    getActionRegistry().registerAction(action);
 	    getSelectionActions().add(action.getId());
 
@@ -105,10 +89,7 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		//if (!selection.isEmpty()) System.out.println(selection.toString());
-		//System.out.println(getGraphicalViewer().getEditPartRegistry().toString());
 		updateActions(getSelectionActions());
-		//super.selectionChanged(part, selection);
 	}
 	
 //-----------------Misc------------------------
@@ -157,13 +138,13 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
     }
 
  
-/*    *//**
+    /**
      * A property source which unwraps values that are wrapped in an EMF
      * {@link PropertyValueWrapper}
      *
      * @author vainolo
      *
-     *//*
+     */
     public class UnwrappingPropertySource implements IPropertySource {
         private IPropertySource source;
  
@@ -212,6 +193,6 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
         public void setPropertyValue(Object id, Object value) {
             source.setPropertyValue(id, value);
         }
-    }*/
+    }
 }
 
