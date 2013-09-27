@@ -22,15 +22,6 @@ public interface NPNDiagramsFactory extends EFactory {
 	NPNDiagramsFactory eINSTANCE = ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>NPN Diagram NPN Marked</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>NPN Diagram NPN Marked</em>'.
-	 * @generated
-	 */
-	NPNDiagramNPNMarked createNPNDiagramNPNMarked();
-
-	/**
 	 * Returns a new object of class '<em>NPN Diagram Net System</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

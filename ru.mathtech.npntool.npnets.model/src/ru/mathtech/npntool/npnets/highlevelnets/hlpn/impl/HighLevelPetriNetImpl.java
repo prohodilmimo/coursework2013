@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.hlpn.impl;
 
 import java.util.Collection;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -24,6 +25,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Node;
 
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.TokenExpressionsPackage;
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.Variable;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -72,12 +74,42 @@ public class HighLevelPetriNetImpl extends INetElementImpl implements HighLevelP
 	protected EList<Arc> arcs;
 
 	/**
+	 * ID's prefix  
+	 * @generated
+	 */
+    protected static final String prefixID = "";
+
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected HighLevelPetriNetImpl() {
 		super();
+  
+  
 	}
 
 	/**

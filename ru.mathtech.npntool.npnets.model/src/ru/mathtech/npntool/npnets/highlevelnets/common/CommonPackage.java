@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -130,6 +131,61 @@ public interface CommonPackage extends EPackage {
 	int INET_ELEMENT_FEATURE_COUNT = IENTITY_IDENTIFIABLE_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder <em>IDiagram Holder</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.impl.CommonPackageImpl#getIDiagramHolder()
+	 * @generated
+	 */
+	int IDIAGRAM_HOLDER = 2;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDIAGRAM_HOLDER__ID = INET_ELEMENT__ID;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDIAGRAM_HOLDER__NAME = INET_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDIAGRAM_HOLDER__COMMENT = INET_ELEMENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDIAGRAM_HOLDER__DIAGRAM = INET_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>IDiagram Holder</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDIAGRAM_HOLDER_FEATURE_COUNT = INET_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '<em>Rectangle</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -137,7 +193,7 @@ public interface CommonPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.impl.CommonPackageImpl#getRectangle()
 	 * @generated
 	 */
-	int RECTANGLE = 2;
+	int RECTANGLE = 3;
 
 	/**
 	 * The meta object id for the '<em>Point</em>' data type.
@@ -147,7 +203,7 @@ public interface CommonPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.impl.CommonPackageImpl#getPoint()
 	 * @generated
 	 */
-	int POINT = 3;
+	int POINT = 4;
 
 
 	/**
@@ -202,6 +258,27 @@ public interface CommonPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIEntityIdentifiable_Id();
+
+	/**
+	 * Returns the meta object for class '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder <em>IDiagram Holder</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>IDiagram Holder</em>'.
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder
+	 * @generated
+	 */
+	EClass getIDiagramHolder();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>Diagram</em>'.
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder#getDiagram()
+	 * @see #getIDiagramHolder()
+	 * @generated
+	 */
+	EReference getIDiagramHolder_Diagram();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.draw2d.geometry.Rectangle <em>Rectangle</em>}'.
@@ -290,6 +367,24 @@ public interface CommonPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IENTITY_IDENTIFIABLE__ID = eINSTANCE.getIEntityIdentifiable_Id();
+
+		/**
+		 * The meta object literal for the '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder <em>IDiagram Holder</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder
+		 * @see ru.mathtech.npntool.npnets.highlevelnets.common.impl.CommonPackageImpl#getIDiagramHolder()
+		 * @generated
+		 */
+		EClass IDIAGRAM_HOLDER = eINSTANCE.getIDiagramHolder();
+
+		/**
+		 * The meta object literal for the '<em><b>Diagram</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IDIAGRAM_HOLDER__DIAGRAM = eINSTANCE.getIDiagramHolder_Diagram();
 
 		/**
 		 * The meta object literal for the '<em>Rectangle</em>' data type.

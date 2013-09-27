@@ -56,7 +56,6 @@ public class NPNDiagramsFactoryImpl extends EFactoryImpl implements NPNDiagramsF
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case NPNDiagramsPackage.NPN_DIAGRAM_NPN_MARKED: return createNPNDiagramNPNMarked();
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM: return createNPNDiagramNetSystem();
 			case NPNDiagramsPackage.NPN_SYMBOL_PLACE_SN: return createNPNSymbolPlaceSN();
 			case NPNDiagramsPackage.NPN_SYMBOL_TRANSITION_SN: return createNPNSymbolTransitionSN();
@@ -65,16 +64,6 @@ public class NPNDiagramsFactoryImpl extends EFactoryImpl implements NPNDiagramsF
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NPNDiagramNPNMarked createNPNDiagramNPNMarked() {
-		NPNDiagramNPNMarkedImpl npnDiagramNPNMarked = new NPNDiagramNPNMarkedImpl();
-		return npnDiagramNPNMarked;
 	}
 
 	/**

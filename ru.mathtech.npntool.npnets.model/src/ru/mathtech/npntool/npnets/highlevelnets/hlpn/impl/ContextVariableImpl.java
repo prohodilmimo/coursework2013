@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.hlpn.impl;
 
 import java.util.Collection;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -47,12 +48,41 @@ public abstract class ContextVariableImpl extends IEntityIdentifiableImpl implem
 	protected EList<Variable> variables;
 
 	/**
+	 * ID's prefix  
+	 * @generated
+	 */
+    protected static final String prefixID = "";
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ContextVariableImpl() {
 		super();
+  
+  
 	}
 
 	/**

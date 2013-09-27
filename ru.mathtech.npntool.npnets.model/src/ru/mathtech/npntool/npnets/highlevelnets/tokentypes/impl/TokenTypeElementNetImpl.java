@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl;
 
 import java.util.Collection;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -17,12 +18,16 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.CommonPackage;
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.ElementNetMarked;
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenNet;
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypesPackage;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +36,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypesPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenTypeElementNetImpl#getDiagram <em>Diagram</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenTypeElementNetImpl#getElementNetMarkeds <em>Element Net Markeds</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenTypeElementNetImpl#getNet <em>Net</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenTypeElementNetImpl#getTokenNets <em>Token Nets</em>}</li>
@@ -40,6 +46,16 @@ import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypesPackage;
  * @generated
  */
 public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeElementNet {
+	/**
+	 * The cached value of the '{@link #getDiagram() <em>Diagram</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDiagram()
+	 * @generated
+	 * @ordered
+	 */
+	protected NPNDiagramNetSystem diagram;
+
 	/**
 	 * The cached value of the '{@link #getElementNetMarkeds() <em>Element Net Markeds</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -71,12 +87,42 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	protected EList<TokenNet> tokenNets;
 
 	/**
+	 * ID's prefix  
+	 * @generated
+	 */
+    protected static final String prefixID = "";
+
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TokenTypeElementNetImpl() {
 		super();
+  
+  
 	}
 
 	/**
@@ -87,6 +133,49 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	protected EClass eStaticClass() {
 		return TokenTypesPackage.Literals.TOKEN_TYPE_ELEMENT_NET;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NPNDiagramNetSystem getDiagram() {
+		return diagram;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetDiagram(NPNDiagramNetSystem newDiagram, NotificationChain msgs) {
+		NPNDiagramNetSystem oldDiagram = diagram;
+		diagram = newDiagram;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM, oldDiagram, newDiagram);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDiagram(NPNDiagramNetSystem newDiagram) {
+		if (newDiagram != diagram) {
+			NotificationChain msgs = null;
+			if (diagram != null)
+				msgs = ((InternalEObject)diagram).eInverseRemove(this, NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST, NPNDiagramNetSystem.class, msgs);
+			if (newDiagram != null)
+				msgs = ((InternalEObject)newDiagram).eInverseAdd(this, NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST, NPNDiagramNetSystem.class, msgs);
+			msgs = basicSetDiagram(newDiagram, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM, newDiagram, newDiagram));
 	}
 
 	/**
@@ -187,6 +276,10 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				if (diagram != null)
+					msgs = ((InternalEObject)diagram).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM, null, msgs);
+				return basicSetDiagram((NPNDiagramNetSystem)otherEnd, msgs);
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getElementNetMarkeds()).basicAdd(otherEnd, msgs);
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__TOKEN_NETS:
@@ -203,6 +296,8 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				return basicSetDiagram(null, msgs);
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				return ((InternalEList<?>)getElementNetMarkeds()).basicRemove(otherEnd, msgs);
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__NET:
@@ -221,6 +316,8 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				return getDiagram();
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				return getElementNetMarkeds();
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__NET:
@@ -240,6 +337,9 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				setDiagram((NPNDiagramNetSystem)newValue);
+				return;
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				getElementNetMarkeds().clear();
 				getElementNetMarkeds().addAll((Collection<? extends ElementNetMarked>)newValue);
@@ -263,6 +363,9 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				setDiagram((NPNDiagramNetSystem)null);
+				return;
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				getElementNetMarkeds().clear();
 				return;
@@ -284,6 +387,8 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM:
+				return diagram != null;
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS:
 				return elementNetMarkeds != null && !elementNetMarkeds.isEmpty();
 			case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__NET:
@@ -292,6 +397,38 @@ public class TokenTypeElementNetImpl extends TokenTypeImpl implements TokenTypeE
 				return tokenNets != null && !tokenNets.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
+		if (baseClass == IDiagramHolder.class) {
+			switch (derivedFeatureID) {
+				case TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM: return CommonPackage.IDIAGRAM_HOLDER__DIAGRAM;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
+		if (baseClass == IDiagramHolder.class) {
+			switch (baseFeatureID) {
+				case CommonPackage.IDIAGRAM_HOLDER__DIAGRAM: return TokenTypesPackage.TOKEN_TYPE_ELEMENT_NET__DIAGRAM;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //TokenTypeElementNetImpl

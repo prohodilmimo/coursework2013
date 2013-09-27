@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.npndiagrams.impl;
 
 import java.util.Collection;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -15,8 +16,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.CommonPackage;
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.common.impl.IEntityIdentifiableImpl;
 
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
@@ -33,25 +37,16 @@ import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolNodeSN;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl#getModel <em>Model</em>}</li>
+ *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl#getHost <em>Host</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl#getNodes <em>Nodes</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl#getArcs <em>Arcs</em>}</li>
+ *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl#getModel <em>Model</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements NPNDiagramNetSystem {
-	/**
-	 * The cached value of the '{@link #getModel() <em>Model</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getModel()
-	 * @generated
-	 * @ordered
-	 */
-	protected HighLevelPetriNet model;
-
 	/**
 	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -73,12 +68,52 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	protected EList<NPNSymbolArcSN> arcs;
 
 	/**
+	 * The cached value of the '{@link #getModel() <em>Model</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModel()
+	 * @generated
+	 * @ordered
+	 */
+	protected HighLevelPetriNet model;
+
+	/**
+	 * ID's prefix  
+	 * @generated
+	 */
+    protected static final String prefixID = "";
+
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected NPNDiagramNetSystemImpl() {
 		super();
+  
+  
 	}
 
 	/**
@@ -89,6 +124,47 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	protected EClass eStaticClass() {
 		return NPNDiagramsPackage.Literals.NPN_DIAGRAM_NET_SYSTEM;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IDiagramHolder getHost() {
+		if (eContainerFeatureID() != NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST) return null;
+		return (IDiagramHolder)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetHost(IDiagramHolder newHost, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newHost, NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHost(IDiagramHolder newHost) {
+		if (newHost != eInternalContainer() || (eContainerFeatureID() != NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST && newHost != null)) {
+			if (EcoreUtil.isAncestor(this, newHost))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString()); //$NON-NLS-1$
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newHost != null)
+				msgs = ((InternalEObject)newHost).eInverseAdd(this, CommonPackage.IDIAGRAM_HOLDER__DIAGRAM, IDiagramHolder.class, msgs);
+			msgs = basicSetHost(newHost, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST, newHost, newHost));
 	}
 
 	/**
@@ -162,6 +238,10 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetHost((IDiagramHolder)otherEnd, msgs);
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNodes()).basicAdd(otherEnd, msgs);
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
@@ -178,6 +258,8 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				return basicSetHost(null, msgs);
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
@@ -192,15 +274,31 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				return eInternalContainer().eInverseRemove(this, CommonPackage.IDIAGRAM_HOLDER__DIAGRAM, IDiagramHolder.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
-				if (resolve) return getModel();
-				return basicGetModel();
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				return getHost();
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				return getNodes();
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
 				return getArcs();
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
+				if (resolve) return getModel();
+				return basicGetModel();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -214,8 +312,8 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
-				setModel((HighLevelPetriNet)newValue);
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				setHost((IDiagramHolder)newValue);
 				return;
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				getNodes().clear();
@@ -224,6 +322,9 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
 				getArcs().clear();
 				getArcs().addAll((Collection<? extends NPNSymbolArcSN>)newValue);
+				return;
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
+				setModel((HighLevelPetriNet)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -237,14 +338,17 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
-				setModel((HighLevelPetriNet)null);
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				setHost((IDiagramHolder)null);
 				return;
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				getNodes().clear();
 				return;
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
 				getArcs().clear();
+				return;
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
+				setModel((HighLevelPetriNet)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -258,12 +362,14 @@ public class NPNDiagramNetSystemImpl extends IEntityIdentifiableImpl implements 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
-				return model != null;
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__HOST:
+				return getHost() != null;
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__NODES:
 				return nodes != null && !nodes.isEmpty();
 			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__ARCS:
 				return arcs != null && !arcs.isEmpty();
+			case NPNDiagramsPackage.NPN_DIAGRAM_NET_SYSTEM__MODEL:
+				return model != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -224,6 +224,15 @@ public class NPNetsPackageImpl extends EPackageImpl implements NPNetsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNPnet_Host() {
+		return (EReference)nPnetEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNPnetMarked() {
 		return nPnetMarkedEClass;
 	}
@@ -244,15 +253,6 @@ public class NPNetsPackageImpl extends EPackageImpl implements NPNetsPackage {
 	 */
 	public EReference getNPnetMarked_Marking() {
 		return (EReference)nPnetMarkedEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNPnetMarked_DiagramNetSystem() {
-		return (EReference)nPnetMarkedEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -352,11 +352,11 @@ public class NPNetsPackageImpl extends EPackageImpl implements NPNetsPackage {
 		createEReference(nPnetEClass, NPNET__TYPE_ATOMIC);
 		createEReference(nPnetEClass, NPNET__NET_CONSTANTS);
 		createEReference(nPnetEClass, NPNET__SYNCHRONIZATIONS);
+		createEReference(nPnetEClass, NPNET__HOST);
 
 		nPnetMarkedEClass = createEClass(NPNET_MARKED);
 		createEReference(nPnetMarkedEClass, NPNET_MARKED__NET);
 		createEReference(nPnetMarkedEClass, NPNET_MARKED__MARKING);
-		createEReference(nPnetMarkedEClass, NPNET_MARKED__DIAGRAM_NET_SYSTEM);
 
 		synchronizationEClass = createEClass(SYNCHRONIZATION);
 		createEAttribute(synchronizationEClass, SYNCHRONIZATION__KIND);
@@ -399,14 +399,13 @@ public class NPNetsPackageImpl extends EPackageImpl implements NPNetsPackage {
 		TokenTypesPackage theTokenTypesPackage = (TokenTypesPackage)EPackage.Registry.INSTANCE.getEPackage(TokenTypesPackage.eNS_URI);
 		TokenExpressionsPackage theTokenExpressionsPackage = (TokenExpressionsPackage)EPackage.Registry.INSTANCE.getEPackage(TokenExpressionsPackage.eNS_URI);
 		MarkingPackage theMarkingPackage = (MarkingPackage)EPackage.Registry.INSTANCE.getEPackage(MarkingPackage.eNS_URI);
-		NPNDiagramsPackage theNPNDiagramsPackage = (NPNDiagramsPackage)EPackage.Registry.INSTANCE.getEPackage(NPNDiagramsPackage.eNS_URI);
 
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		nPnetEClass.getESuperTypes().add(theCommonPackage.getINetElement());
+		nPnetEClass.getESuperTypes().add(theCommonPackage.getIDiagramHolder());
 		nPnetMarkedEClass.getESuperTypes().add(theCommonPackage.getINetElement());
 		synchronizationEClass.getESuperTypes().add(theCommonPackage.getINetElement());
 		transitionSynchronizedEClass.getESuperTypes().add(theHLPNPackage.getTransition());
@@ -418,11 +417,11 @@ public class NPNetsPackageImpl extends EPackageImpl implements NPNetsPackage {
 		initEReference(getNPnet_TypeAtomic(), theTokenTypesPackage.getTokenTypeAtomic(), null, "typeAtomic", null, 1, 1, NPnet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getNPnet_NetConstants(), theTokenExpressionsPackage.getNetConstant(), null, "netConstants", null, 0, -1, NPnet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getNPnet_Synchronizations(), this.getSynchronization(), null, "synchronizations", null, 0, -1, NPnet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getNPnet_Host(), this.getNPnetMarked(), this.getNPnetMarked_Net(), "host", null, 1, 1, NPnet.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(nPnetMarkedEClass, NPnetMarked.class, "NPnetMarked", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEReference(getNPnetMarked_Net(), this.getNPnet(), null, "net", null, 1, 1, NPnetMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getNPnetMarked_Net(), this.getNPnet(), this.getNPnet_Host(), "net", null, 1, 1, NPnetMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getNPnetMarked_Marking(), theMarkingPackage.getMarking(), null, "marking", null, 1, 1, NPnetMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEReference(getNPnetMarked_DiagramNetSystem(), theNPNDiagramsPackage.getNPNDiagramNetSystem(), null, "diagramNetSystem", null, 1, 1, NPnetMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(synchronizationEClass, Synchronization.class, "Synchronization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getSynchronization_Kind(), this.getESynchronizationKind(), "kind", null, 1, 1, Synchronization.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

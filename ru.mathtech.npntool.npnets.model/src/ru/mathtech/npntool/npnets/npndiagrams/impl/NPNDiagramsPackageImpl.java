@@ -33,7 +33,6 @@ import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypesPackage;
 
 import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenTypesPackageImpl;
 
-import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsPackage;
@@ -51,13 +50,6 @@ import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolTransitionSN;
  * @generated
  */
 public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsPackage {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass npnDiagramNPNMarkedEClass = null;
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -193,33 +185,6 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNPNDiagramNPNMarked() {
-		return npnDiagramNPNMarkedEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNPNDiagramNPNMarked_DiagramNetSystem() {
-		return (EReference)npnDiagramNPNMarkedEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getNPNDiagramNPNMarked_Model() {
-		return (EReference)npnDiagramNPNMarkedEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getNPNDiagramNetSystem() {
 		return npnDiagramNetSystemEClass;
 	}
@@ -229,8 +194,17 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNPNDiagramNetSystem_Model() {
+	public EReference getNPNDiagramNetSystem_Host() {
 		return (EReference)npnDiagramNetSystemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getNPNDiagramNetSystem_Model() {
+		return (EReference)npnDiagramNetSystemEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -459,14 +433,11 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 		isCreated = true;
 
 		// Create classes and their features
-		npnDiagramNPNMarkedEClass = createEClass(NPN_DIAGRAM_NPN_MARKED);
-		createEReference(npnDiagramNPNMarkedEClass, NPN_DIAGRAM_NPN_MARKED__DIAGRAM_NET_SYSTEM);
-		createEReference(npnDiagramNPNMarkedEClass, NPN_DIAGRAM_NPN_MARKED__MODEL);
-
 		npnDiagramNetSystemEClass = createEClass(NPN_DIAGRAM_NET_SYSTEM);
-		createEReference(npnDiagramNetSystemEClass, NPN_DIAGRAM_NET_SYSTEM__MODEL);
+		createEReference(npnDiagramNetSystemEClass, NPN_DIAGRAM_NET_SYSTEM__HOST);
 		createEReference(npnDiagramNetSystemEClass, NPN_DIAGRAM_NET_SYSTEM__NODES);
 		createEReference(npnDiagramNetSystemEClass, NPN_DIAGRAM_NET_SYSTEM__ARCS);
+		createEReference(npnDiagramNetSystemEClass, NPN_DIAGRAM_NET_SYSTEM__MODEL);
 
 		npnSymbolPlaceSNEClass = createEClass(NPN_SYMBOL_PLACE_SN);
 		createEReference(npnSymbolPlaceSNEClass, NPN_SYMBOL_PLACE_SN__OUT_ARCS);
@@ -520,7 +491,6 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 
 		// Obtain other dependent packages
 		CommonPackage theCommonPackage = (CommonPackage)EPackage.Registry.INSTANCE.getEPackage(CommonPackage.eNS_URI);
-		NPNetsPackage theNPNetsPackage = (NPNetsPackage)EPackage.Registry.INSTANCE.getEPackage(NPNetsPackage.eNS_URI);
 		HLPNPackage theHLPNPackage = (HLPNPackage)EPackage.Registry.INSTANCE.getEPackage(HLPNPackage.eNS_URI);
 
 		// Create type parameters
@@ -528,7 +498,6 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
-		npnDiagramNPNMarkedEClass.getESuperTypes().add(theCommonPackage.getIEntityIdentifiable());
 		npnDiagramNetSystemEClass.getESuperTypes().add(theCommonPackage.getIEntityIdentifiable());
 		npnSymbolPlaceSNEClass.getESuperTypes().add(this.getNPNSymbolNodeSN());
 		npnSymbolTransitionSNEClass.getESuperTypes().add(this.getNPNSymbolNodeSN());
@@ -538,14 +507,11 @@ public class NPNDiagramsPackageImpl extends EPackageImpl implements NPNDiagramsP
 		npnSymbolArcSNEClass.getESuperTypes().add(theCommonPackage.getIEntityIdentifiable());
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(npnDiagramNPNMarkedEClass, NPNDiagramNPNMarked.class, "NPNDiagramNPNMarked", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEReference(getNPNDiagramNPNMarked_DiagramNetSystem(), this.getNPNDiagramNetSystem(), null, "diagramNetSystem", null, 1, 1, NPNDiagramNPNMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-		initEReference(getNPNDiagramNPNMarked_Model(), theNPNetsPackage.getNPnetMarked(), null, "model", null, 1, 1, NPNDiagramNPNMarked.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-
 		initEClass(npnDiagramNetSystemEClass, NPNDiagramNetSystem.class, "NPNDiagramNetSystem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-		initEReference(getNPNDiagramNetSystem_Model(), theHLPNPackage.getHighLevelPetriNet(), null, "model", null, 1, 1, NPNDiagramNetSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getNPNDiagramNetSystem_Host(), theCommonPackage.getIDiagramHolder(), theCommonPackage.getIDiagramHolder_Diagram(), "host", null, 1, 1, NPNDiagramNetSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getNPNDiagramNetSystem_Nodes(), this.getNPNSymbolNodeSN(), this.getNPNSymbolNodeSN_Diagram(), "nodes", null, 0, -1, NPNDiagramNetSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 		initEReference(getNPNDiagramNetSystem_Arcs(), this.getNPNSymbolArcSN(), this.getNPNSymbolArcSN_Diagram(), "arcs", null, 0, -1, NPNDiagramNetSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+		initEReference(getNPNDiagramNetSystem_Model(), theHLPNPackage.getHighLevelPetriNet(), null, "model", null, 1, 1, NPNDiagramNetSystem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		initEClass(npnSymbolPlaceSNEClass, NPNSymbolPlaceSN.class, "NPNSymbolPlaceSN", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEReference(getNPNSymbolPlaceSN_OutArcs(), this.getNPNSymbolArcPTSN(), this.getNPNSymbolArcPTSN_Source(), "outArcs", null, 0, -1, NPNSymbolPlaceSN.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

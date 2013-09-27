@@ -511,6 +511,7 @@ public class TokenTypesPackageImpl extends EPackageImpl implements TokenTypesPac
 		tokenTypeEClass.getESuperTypes().add(theCommonPackage.getINetElement());
 		tokenTypeAtomicEClass.getESuperTypes().add(this.getTokenType());
 		tokenTypeElementNetEClass.getESuperTypes().add(this.getTokenType());
+		tokenTypeElementNetEClass.getESuperTypes().add(theCommonPackage.getIDiagramHolder());
 		tokenEClass.getESuperTypes().add(theCommonPackage.getINetElement());
 		tokenAtomicEClass.getESuperTypes().add(this.getToken());
 		tokenNetEClass.getESuperTypes().add(this.getToken());

@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.tokentypes;
 
 import org.eclipse.emf.common.util.EList;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 
 /**
@@ -24,7 +25,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
  * @model
  * @generated
  */
-public interface TokenTypeElementNet extends TokenType {
+public interface TokenTypeElementNet extends TokenType, IDiagramHolder {
 	/**
 	 * Returns the value of the '<em><b>Element Net Markeds</b></em>' containment reference list.
 	 * The list contents are of type {@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.ElementNetMarked}.

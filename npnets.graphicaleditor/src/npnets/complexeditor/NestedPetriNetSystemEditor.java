@@ -13,6 +13,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import npnets.complexeditor.action.OpenElementNetEditorAction;
+import npnets.complexeditor.action.StepSimulationAction;
+import npnets.complexeditor.editorparts.ElementNetEditorInput;
+import npnets.complexeditor.editorparts.ElementNetEditorPart;
 import npnets.complexeditor.editorparts.ModelTreeEditorPart;
 import npnets.complexeditor.editorparts.graphicaleditorpart.NetGraphicalEditor;
 import npnets.complexeditor.editorparts.graphicaleditorpart.NetSimpleGraphicalEditor;
@@ -26,9 +30,13 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -37,6 +45,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -45,24 +55,37 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.ApplicationWindow;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.internal.WorkbenchPage;
+import org.eclipse.ui.internal.WorkbenchWindow;
+import org.eclipse.ui.internal.editors.text.NonExistingFileEditorInput;
+import org.eclipse.ui.internal.part.NullEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
@@ -108,17 +131,23 @@ import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIUtil;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.Request;
+import org.eclipse.gef.ui.actions.SelectionAction;
+import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.EditorInputProxy;
 
 //import ru.mathtech.npntool.npnets.*;
 
 import ru.mathtech.npntool.npnets.highlevelnets.common.provider.CommonItemProviderAdapterFactory;
+import ru.mathtech.npntool.npnets.highlevelnets.marking.MarkingFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.provider.NPNetsItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.provider.TokenExpressionsItemProviderAdapterFactory;
+import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.ElementNetMarked;
+import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
 
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
-import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked;
 
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPNetsFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
@@ -126,69 +155,33 @@ import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HLPNFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
 
+import org.eclipse.ui.actions.OpenInNewWindowAction;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
-
-/**
- * This is an example of a NPN model editor.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
- * @generated
- */
 public class NestedPetriNetSystemEditor extends MultiPageEditorPart
-	implements IEditingDomainProvider, /*ISelectionProvider,*/ IMenuListener, IViewerProvider, IGotoMarker {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+	implements IEditingDomainProvider, IMenuListener, IViewerProvider, IGotoMarker {
+
 	public class ReverseAdapterFactoryContentProvider extends AdapterFactoryContentProvider {
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
 		public ReverseAdapterFactoryContentProvider(AdapterFactory adapterFactory) {
 			super(adapterFactory);
 		}
-
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
 		@Override
 		public Object [] getChildren(Object object) {
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
 
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
 		@Override
 		public Object [] getElements(Object object) {
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
 
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
 		@Override
 		public Object getParent(Object object) {
 			return null;
 		}
 
-		/**
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
 		@Override
 		public boolean hasChildren(Object object) {
 			Object parent = super.getParent(object);
@@ -609,7 +602,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		contextMenu.add(new Separator("additions")); //$NON-NLS-1$
 		contextMenu.setRemoveAllWhenShown(true);
 		contextMenu.addMenuListener(this);
-		Menu menu= contextMenu.createContextMenu(viewer.getControl());
+		Menu menu = contextMenu.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
@@ -644,6 +637,21 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
 		}
 		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+		
+		this.net = (NPnetMarked)editingDomain.getResourceSet().getResources().get(0).getContents().get(0);
+		//TODO: Check. Move to Model
+		if (((NPnetMarked)net).getNet() == null)
+			this.net.setNet(NPNetsFactory.eINSTANCE.createNPnet());
+		if (this.net.getNet().getNetSystem() == null)
+			this.net.getNet().setNetSystem(HLPNFactory.eINSTANCE.createHighLevelPetriNet());
+		if (this.net.getNet().getDiagram() == null)
+			this.net.getNet().setDiagram(NPNDiagramsFactory.eINSTANCE.createNPNDiagramNetSystem());
+		if (this.net.getMarking() == null)
+			this.net.setMarking(MarkingFactory.eINSTANCE.createMarking());
+		
+		netDiagram = this.net.getNet().getDiagram();
+		netDiagram.setModel(net.getNet().getNetSystem());
+		
 	}
 
 	protected ModelTreeEditorPart mtEditorPart;
@@ -660,46 +668,26 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		//
 		createModel();
 			
-		setNet(editingDomain.getResourceSet().getResources().get(0).getContents().get(0));
-		
-		netDiagram = net.getDiagramNetSystem();
-		netDiagram.setModel(net.getNet().getNetSystem());
-		
 		int pageIndex = 0;
 		// Only creates the other pages if there is something that can be edited
 		//
 		if (!getEditingDomain().getResourceSet().getResources().isEmpty()) {
 			try {
-			// Create a page for the selection tree view.
-			//
+				{
+					mtEditorPart = new ModelTreeEditorPart(this);
+	                pageIndex = addPage(mtEditorPart, getEditorInput());
+	                setPageText(pageIndex, "Model Tree");
+		            mtEditorPart.setInput(getEditingDomain().getResourceSet());
+				}
+
 				{
 					gEditor = new NetSimpleGraphicalEditor();
 					
 					pageIndex = addPage(gEditor, getEditorInput());
-					GraphicalViewer graphicalViewer = (GraphicalViewer) gEditor.getAdapter(GraphicalViewer.class);
+					gEditor.getAdapter(GraphicalViewer.class);
 					setPageText(pageIndex, "Editor");
-					graphicalViewer.setContents(netDiagram);
+					gEditor.setInput(netDiagram);
 				}
-				
-				{
-					mtEditorPart = new ModelTreeEditorPart(this);
-	                pageIndex = addPage(mtEditorPart, getEditorInput());
-	                setPageText(pageIndex, "Outline");
-		            mtEditorPart.setInput(getEditingDomain().getResourceSet());
-				}
-		
-				/*{
-					graphicalEditor = new NetGraphicalEditor(getSite().getPage(), NestedPetriNetSystemEditor.this);
-					graphicalEditor.createControl(getContainer());
-					graphicalViewer = graphicalEditor.getViewer();
-					graphicalViewer.setContents(netDiagram);
-					int pageIndex = addPage(graphicalEditor.getControl());
-					
-					//GraphicalViewer graphicalViewer = (GraphicalViewer) graphicalEditor.getAdapter(GraphicalViewer.class);
-					
-					//createContextMenuFor(graphicalViewer);
-					setPageText(pageIndex, "Editor");			
-				}*/
 			}
 			catch(PartInitException e) {
 				e.printStackTrace();
@@ -711,7 +699,6 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 				}
 			});
 		}
-		
 		
 		// Ensures that this editor will only display the page's tab
 		// area if there are more than one page
@@ -1263,7 +1250,6 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		site.setSelectionProvider(selectionProvider);
 		site.getPage().addPartListener(partListener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
-		//getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(this);
 	}
 
 	/**
@@ -1369,6 +1355,23 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 	 */
 	public void menuAboutToShow(IMenuManager menuManager) {
 		((IMenuListener)getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
+
+		menuManager.add(new StepSimulationAction(getNet()));
+		Object s = ((IStructuredSelection)currentViewer.getSelection()).getFirstElement();
+    	if (s instanceof TokenTypeElementNet) {
+     		TokenTypeElementNet tten = (TokenTypeElementNet)s;
+			menuManager.insertBefore( "edit", new OpenElementNetEditorAction(tten, this)); //$NON-NLS-1$
+    	}
+    	
+			/*
+     		IEditorInput ei = new ElementNetEditorInput((TokenTypeElementNet)s);
+     		try {
+     			//PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(ei, "ene");
+     			//PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("ene");
+     			}
+     		catch (PartInitException e) { // TODO Auto-generated catch block
+				e.printStackTrace(); }
+ 		 	*/	
 	}
 
 	/**
@@ -1442,17 +1445,6 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 		else {
 			getControl(getActivePage()).setFocus();
 		}
-	}
-
-	public void setNet(Object newNet){
-		this.net = (NPnetMarked)newNet;
-		//TODO: Check.
-		if (((NPnetMarked)newNet).getDiagramNetSystem() == null)
-			this.net.setDiagramNetSystem(NPNDiagramsFactory.eINSTANCE.createNPNDiagramNetSystem());
-		if (((NPnetMarked)newNet).getNet() == null)
-			this.net.setNet(NPNetsFactory.eINSTANCE.createNPnet());
-		if (this.net.getNet().getNetSystem() == null)
-			this.net.getNet().setNetSystem(HLPNFactory.eINSTANCE.createHighLevelPetriNet());
 	}
 
 	@Override
@@ -1562,7 +1554,7 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			}
 		}
 	}
-
+	
 	/**
 	 * Updates the problems indication with the information described in the specified diagnostic.
 	 * <!-- begin-user-doc -->
@@ -1619,13 +1611,4 @@ public class NestedPetriNetSystemEditor extends MultiPageEditorPart
 			}
 		}
 	}
-
-	/*@Override
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-	  if (this.equals(getSite().getPage().getActiveEditor())) {
-		//System.out.println(selection.getClass());
-	    if (getGEFEditor().equals(getActiveEditor())) getGEFEditor().selectionChanged(getActiveEditor(), selection);
-	  }
-	}*/
-	
 }

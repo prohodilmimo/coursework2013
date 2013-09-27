@@ -70,10 +70,6 @@ public class NPNDiagramsAdapterFactory extends AdapterFactoryImpl {
 	protected NPNDiagramsSwitch<Adapter> modelSwitch =
 		new NPNDiagramsSwitch<Adapter>() {
 			@Override
-			public Adapter caseNPNDiagramNPNMarked(NPNDiagramNPNMarked object) {
-				return createNPNDiagramNPNMarkedAdapter();
-			}
-			@Override
 			public Adapter caseNPNDiagramNetSystem(NPNDiagramNetSystem object) {
 				return createNPNDiagramNetSystemAdapter();
 			}
@@ -124,20 +120,6 @@ public class NPNDiagramsAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
-
-	/**
-	 * Creates a new adapter for an object of class '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked <em>NPN Diagram NPN Marked</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked
-	 * @generated
-	 */
-	public Adapter createNPNDiagramNPNMarkedAdapter() {
-		return null;
-	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem <em>NPN Diagram Net System</em>}'.

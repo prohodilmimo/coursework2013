@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.tokenexpressions.impl;
 
 import java.math.BigInteger;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -63,12 +64,42 @@ public class MonomImpl extends IEntityIdentifiableImpl implements Monom {
 	protected BigInteger power = POWER_EDEFAULT;
 
 	/**
+	 * ID's prefix  
+	 * @generated
+	 */
+    protected static final String prefixID = "";
+
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected MonomImpl() {
 		super();
+  
+  
 	}
 
 	/**

@@ -2,30 +2,31 @@ package npnets.complexeditor.editorparts.graphicaleditorpart.action;
 
 import java.util.List;
 
-import npnets.complexeditor.editorparts.graphicaleditorpart.part.PlaceEditPart;
+import npnets.complexeditor.editorparts.graphicaleditorpart.part.TransitionEditPart;
 
 import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class PlaceAddSystemAction extends SelectionAction {
-	public static final String ADD_SYSTEM = "Add System";
-    public static final String REQ_ADD_SYSTEM = "Add System";
+public class TransitionAddSynchronizationAction extends SelectionAction {
+	public static final String ADD_SYNC= "Add Syncrhonization";
+    public static final String REQ_ADD_SYNC = "Add Synchronization";
     
     Request request;
     
-    public PlaceAddSystemAction(IWorkbenchPart part) {
+    public TransitionAddSynchronizationAction(IWorkbenchPart part) {
         super(part);
-        setId(ADD_SYSTEM);
-        setText("Add system");
-        request = new Request(REQ_ADD_SYSTEM);
+        setId(ADD_SYNC);
+        setText("Add synchronization");
+        request = new Request(REQ_ADD_SYNC);
     }
+    
     @Override
     public void run() {
-        @SuppressWarnings("unchecked") List<PlaceEditPart> editParts = getSelectedObjects();
+        @SuppressWarnings("unchecked") List<TransitionEditPart> editParts = getSelectedObjects();
         CompoundCommand compoundCommand = new CompoundCommand();
-        for(PlaceEditPart placeEditPart : editParts) {
+        for(TransitionEditPart placeEditPart : editParts) {
             compoundCommand.add(placeEditPart.getCommand(request));
         }
         execute(compoundCommand);
@@ -37,7 +38,7 @@ public class PlaceAddSystemAction extends SelectionAction {
             return false;
         }
         for(Object selectedObject : getSelectedObjects()) {
-            if(!(selectedObject instanceof PlaceEditPart)) {
+            if(!(selectedObject instanceof TransitionEditPart)) {
                 return false;
             }
         }

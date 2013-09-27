@@ -5,6 +5,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
+import ru.mathtech.npntool.npnets.highlevelnets.hlpn.Place;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNSymbolPlaceSN;
+
 import npnets.complexeditor.editorparts.graphicaleditorpart.part.PlaceEditPart;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class PlaceAddTokenAction extends SelectionAction {
         setText("Add token");
         request = new Request(REQ_ADD_TOKEN);
     }
+    
     @Override
     public void run() {
         @SuppressWarnings("unchecked") List<PlaceEditPart> editParts = getSelectedObjects();
@@ -37,7 +41,9 @@ public class PlaceAddTokenAction extends SelectionAction {
             return false;
         }
         for(Object selectedObject : getSelectedObjects()) {
-            if(!(selectedObject instanceof PlaceEditPart)) {
+            if( !(selectedObject instanceof PlaceEditPart) ||
+        		((Place)((NPNSymbolPlaceSN)((PlaceEditPart)selectedObject).getModel()).getModel()).getType() == null
+        		) {
                 return false;
             }
         }

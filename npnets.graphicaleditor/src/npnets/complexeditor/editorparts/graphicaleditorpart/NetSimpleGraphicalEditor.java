@@ -1,7 +1,11 @@
 package npnets.complexeditor.editorparts.graphicaleditorpart;
 
+import java.util.EventObject;
+
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.NodeCloneAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTokenAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTypeAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.action.TransitionAddSynchronizationAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.part.NPNEditPartFactory;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,9 +29,13 @@ import org.eclipse.ui.views.properties.IPropertySource;
 import org.eclipse.ui.views.properties.IPropertySourceProvider;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
+
 public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	private ContextMenuProvider contextMenu;
 	private PropertySheetPage propertyPage;
+	private NPNDiagramNetSystem netDiagram;
 
 //-----------------Meta-------------------------	
 
@@ -38,14 +46,10 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 	  super.init(site, input);
-	  //((NestedPetriNetSystemEditor)getSite().getPart()).addSelectionChangedListener(this);
 	}
 	
 	@Override
-	public void doSave(IProgressMonitor monitor) {
-		//TODO: Do i need this one?
-		
-	}
+	public void doSave(IProgressMonitor monitor) {}
 	
 	@Override
 	protected void initializeGraphicalViewer() {
@@ -60,16 +64,16 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	    getGraphicalViewer().setContextMenu(contextMenu);
 	} 
 	
-	/*@Override
+	@Override
 	public void commandStackChanged(EventObject event) {
 		firePropertyChange(PROP_DIRTY);
-	    super.commandStackChanged(event);
-    }*/
-	
+		super.commandStackChanged(event);
+    }
 	
 	
 //------------------Tools-----------------------
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void createActions() {
 		super.createActions();
@@ -78,6 +82,14 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	    getSelectionActions().add(action.getId());
 
 	    action = new PlaceAddTokenAction(this);
+	    getActionRegistry().registerAction(action);
+	    getSelectionActions().add(action.getId());
+	    
+	    action = new PlaceAddTypeAction(this);
+	    getActionRegistry().registerAction(action);
+	    getSelectionActions().add(action.getId());
+	    
+	    action = new TransitionAddSynchronizationAction(this);
 	    getActionRegistry().registerAction(action);
 	    getSelectionActions().add(action.getId());
 	}
@@ -90,6 +102,15 @@ public class NetSimpleGraphicalEditor extends GraphicalEditorWithFlyoutPalette {
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		updateActions(getSelectionActions());
+	}
+	
+	public void setInput(NPNDiagramNetSystem netDiagram){
+		this.netDiagram = netDiagram;
+		getGraphicalViewer().setContents(netDiagram);
+	}
+	
+	public NPNDiagramNetSystem getDiagram() {
+		return this.netDiagram;
 	}
 	
 //-----------------Misc------------------------

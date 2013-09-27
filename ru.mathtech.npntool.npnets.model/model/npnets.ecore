@@ -31,7 +31,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="atom" lowerBound="1"
           eType="#//tokentypes/TokenAtomic" containment="true" eOpposite="#//tokentypes/TokenAtomic/type"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="TokenTypeElementNet" eSuperTypes="#//tokentypes/TokenType">
+    <eClassifiers xsi:type="ecore:EClass" name="TokenTypeElementNet" eSuperTypes="#//tokentypes/TokenType #//common/IDiagramHolder">
       <eOperations name="getInstanceByID" lowerBound="1">
         <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       </eOperations>
@@ -188,7 +188,7 @@
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="npnets" nsURI="mathtech.ru/npntool/npnets" nsPrefix="npnets">
-    <eClassifiers xsi:type="ecore:EClass" name="NPnet" eSuperTypes="#//common/INetElement">
+    <eClassifiers xsi:type="ecore:EClass" name="NPnet" eSuperTypes="#//common/IDiagramHolder">
       <eStructuralFeatures xsi:type="ecore:EReference" name="netSystem" lowerBound="1"
           eType="#//hlpn/HighLevelPetriNet" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="typeElementNet" upperBound="-1"
@@ -199,14 +199,14 @@
           eType="#//tokenexpressions/NetConstant" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="synchronizations" upperBound="-1"
           eType="#//npnets/Synchronization" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1"
+          eType="#//npnets/NPnetMarked" eOpposite="#//npnets/NPnetMarked/net"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NPnetMarked" eSuperTypes="#//common/INetElement">
       <eStructuralFeatures xsi:type="ecore:EReference" name="net" lowerBound="1" eType="#//npnets/NPnet"
-          containment="true"/>
+          containment="true" eOpposite="#//npnets/NPnet/host"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="marking" lowerBound="1"
           eType="#//marking/Marking" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="diagramNetSystem" lowerBound="1"
-          eType="#//npndiagrams/NPNDiagramNetSystem" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Synchronization" eSuperTypes="#//common/INetElement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1"
@@ -242,21 +242,22 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EDataType" name="Rectangle" instanceClassName="org.eclipse.draw2d.geometry.Rectangle"/>
     <eClassifiers xsi:type="ecore:EDataType" name="Point" instanceClassName="org.eclipse.draw2d.geometry.Point"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IDiagramHolder" abstract="true" interface="true"
+        eSuperTypes="#//common/INetElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="diagram" lowerBound="1"
+          eType="#//npndiagrams/NPNDiagramNetSystem" containment="true" eOpposite="#//npndiagrams/NPNDiagramNetSystem/host"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="npndiagrams" nsURI="http:/mathtech.ru/npntool/npndiagrams" nsPrefix="npndiagrams">
-    <eClassifiers xsi:type="ecore:EClass" name="NPNDiagramNPNMarked" eSuperTypes="#//common/IEntityIdentifiable">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="diagramNetSystem" lowerBound="1"
-          eType="#//npndiagrams/NPNDiagramNetSystem"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
-          eType="#//npnets/NPnetMarked"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NPNDiagramNetSystem" eSuperTypes="#//common/IEntityIdentifiable">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
-          eType="#//hlpn/HighLevelPetriNet"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1"
+          eType="#//common/IDiagramHolder" eOpposite="#//common/IDiagramHolder/diagram"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
           eType="#//npndiagrams/NPNSymbolNodeSN" containment="true" eOpposite="#//npndiagrams/NPNSymbolNodeSN/diagram"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="arcs" upperBound="-1"
           eType="#//npndiagrams/NPNSymbolArcSN" containment="true" eOpposite="#//npndiagrams/NPNSymbolArcSN/diagram"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1"
+          eType="#//hlpn/HighLevelPetriNet"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NPNSymbolPlaceSN" eSuperTypes="#//npndiagrams/NPNSymbolNodeSN">
       <eStructuralFeatures xsi:type="ecore:EReference" name="outArcs" upperBound="-1"

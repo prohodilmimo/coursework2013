@@ -77,7 +77,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__ID = CommonPackage.INET_ELEMENT__ID;
+	int NPNET__ID = CommonPackage.IDIAGRAM_HOLDER__ID;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -86,7 +86,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__NAME = CommonPackage.INET_ELEMENT__NAME;
+	int NPNET__NAME = CommonPackage.IDIAGRAM_HOLDER__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Comment</b></em>' attribute.
@@ -95,7 +95,16 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__COMMENT = CommonPackage.INET_ELEMENT__COMMENT;
+	int NPNET__COMMENT = CommonPackage.IDIAGRAM_HOLDER__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NPNET__DIAGRAM = CommonPackage.IDIAGRAM_HOLDER__DIAGRAM;
 
 	/**
 	 * The feature id for the '<em><b>Net System</b></em>' containment reference.
@@ -104,7 +113,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__NET_SYSTEM = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 0;
+	int NPNET__NET_SYSTEM = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Type Element Net</b></em>' containment reference list.
@@ -113,7 +122,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__TYPE_ELEMENT_NET = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 1;
+	int NPNET__TYPE_ELEMENT_NET = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Type Atomic</b></em>' containment reference.
@@ -122,7 +131,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__TYPE_ATOMIC = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 2;
+	int NPNET__TYPE_ATOMIC = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Net Constants</b></em>' containment reference list.
@@ -131,7 +140,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__NET_CONSTANTS = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 3;
+	int NPNET__NET_CONSTANTS = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Synchronizations</b></em>' containment reference list.
@@ -140,7 +149,16 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET__SYNCHRONIZATIONS = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 4;
+	int NPNET__SYNCHRONIZATIONS = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Host</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NPNET__HOST = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>NPnet</em>' class.
@@ -149,7 +167,7 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET_FEATURE_COUNT = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 5;
+	int NPNET_FEATURE_COUNT = CommonPackage.IDIAGRAM_HOLDER_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.NPnetMarkedImpl <em>NPnet Marked</em>}' class.
@@ -207,22 +225,13 @@ public interface NPNetsPackage extends EPackage {
 	int NPNET_MARKED__MARKING = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Diagram Net System</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NPNET_MARKED__DIAGRAM_NET_SYSTEM = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
 	 * The number of structural features of the '<em>NPnet Marked</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NPNET_MARKED_FEATURE_COUNT = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 3;
+	int NPNET_MARKED_FEATURE_COUNT = CommonPackage.INET_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.SynchronizationImpl <em>Synchronization</em>}' class.
@@ -465,6 +474,17 @@ public interface NPNetsPackage extends EPackage {
 	EReference getNPnet_Synchronizations();
 
 	/**
+	 * Returns the meta object for the container reference '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getHost <em>Host</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Host</em>'.
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getHost()
+	 * @see #getNPnet()
+	 * @generated
+	 */
+	EReference getNPnet_Host();
+
+	/**
 	 * Returns the meta object for class '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked <em>NPnet Marked</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -495,17 +515,6 @@ public interface NPNetsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getNPnetMarked_Marking();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked#getDiagramNetSystem <em>Diagram Net System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Diagram Net System</em>'.
-	 * @see ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked#getDiagramNetSystem()
-	 * @see #getNPnetMarked()
-	 * @generated
-	 */
-	EReference getNPnetMarked_DiagramNetSystem();
 
 	/**
 	 * Returns the meta object for class '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.Synchronization <em>Synchronization</em>}'.
@@ -654,6 +663,14 @@ public interface NPNetsPackage extends EPackage {
 		EReference NPNET__SYNCHRONIZATIONS = eINSTANCE.getNPnet_Synchronizations();
 
 		/**
+		 * The meta object literal for the '<em><b>Host</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NPNET__HOST = eINSTANCE.getNPnet_Host();
+
+		/**
 		 * The meta object literal for the '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.NPnetMarkedImpl <em>NPnet Marked</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -678,14 +695,6 @@ public interface NPNetsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference NPNET_MARKED__MARKING = eINSTANCE.getNPnetMarked_Marking();
-
-		/**
-		 * The meta object literal for the '<em><b>Diagram Net System</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NPNET_MARKED__DIAGRAM_NET_SYSTEM = eINSTANCE.getNPnetMarked_DiagramNetSystem();
 
 		/**
 		 * The meta object literal for the '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.SynchronizationImpl <em>Synchronization</em>}' class.

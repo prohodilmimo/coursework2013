@@ -10,7 +10,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.provider.HLPNItemProviderAdapterFactory;
 import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.NodeCloneAction;
-import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddSystemAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTypeAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTokenAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.part.NPNEditPartFactory;
 

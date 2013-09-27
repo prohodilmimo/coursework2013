@@ -2,6 +2,8 @@ package npnets.complexeditor.editorparts.graphicaleditorpart;
 
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.NodeCloneAction;
 import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTokenAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.action.PlaceAddTypeAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.action.TransitionAddSynchronizationAction;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
@@ -37,13 +39,11 @@ public class NetGraphicalEditorContextMenuProvider  extends ContextMenuProvider 
         action = getActionRegistry().getAction(NodeCloneAction.CLONE);
         menu.appendToGroup(GEFActionConstants.GROUP_EDIT, action);
         action = getActionRegistry().getAction(PlaceAddTokenAction.ADD_TOKEN);
-        menu.appendToGroup(GEFActionConstants.GROUP_ADD, action);
-        /*action = getActionRegistry().getAction(ActionFactory.CUT.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
-        action = getActionRegistry().getAction(ActionFactory.COPY.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);
-        action = getActionRegistry().getAction(ActionFactory.PASTE.getId());
-        menu.appendToGroup(GEFActionConstants.GROUP_COPY, action);*/
+        menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        action = getActionRegistry().getAction(PlaceAddTypeAction.ADD_TYPE);
+        menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
+        action = getActionRegistry().getAction(TransitionAddSynchronizationAction.ADD_SYNC);
+        menu.appendToGroup(GEFActionConstants.GROUP_REST, action);
     }
  
     protected ActionRegistry getActionRegistry() {

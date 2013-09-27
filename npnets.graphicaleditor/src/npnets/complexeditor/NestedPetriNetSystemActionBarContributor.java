@@ -3,6 +3,10 @@ package npnets.complexeditor;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import npnets.complexeditor.action.OpenElementNetEditorAction;
+import npnets.complexeditor.action.StepSimulationAction;
+import npnets.complexeditor.editorparts.graphicaleditorpart.NetSimpleGraphicalEditor;
+
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -14,6 +18,7 @@ import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 import org.eclipse.emf.edit.ui.action.ValidateAction;
+import org.eclipse.gef.GraphicalViewer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
@@ -36,6 +41,11 @@ import org.eclipse.jface.viewers.Viewer;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+
+import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
+import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.ElementNetMarked;
+import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
+import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
 
 /**
  * This is the action bar contributor for the NPN model editor.
@@ -165,6 +175,9 @@ public class NestedPetriNetSystemActionBarContributor
 	public void contributeToToolBar(IToolBarManager toolBarManager) {
 		toolBarManager.add(new Separator("npn-settings")); //$NON-NLS-1$
 		toolBarManager.add(new Separator("npn-additions")); //$NON-NLS-1$
+		if (getActiveEditor() instanceof NestedPetriNetSystemEditor) {
+			
+		}
 	}
 
 	/**
@@ -223,10 +236,10 @@ public class NestedPetriNetSystemActionBarContributor
 		if (selectionProvider != null) {
 			selectionProvider.removeSelectionChangedListener(this);
 		}
+		
 		if (part == null) {
 			selectionProvider = null;
-		}
-		else {
+		} else {
 			selectionProvider = part.getSite().getSelectionProvider();
 			selectionProvider.addSelectionChangedListener(this);
 
@@ -388,6 +401,12 @@ public class NestedPetriNetSystemActionBarContributor
 		submenuManager = new MenuManager(NestedPetriNetSystemEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item")); //$NON-NLS-1$
 		populateManager(submenuManager, createSiblingActions, null);
 		menuManager.insertBefore("edit", submenuManager); //$NON-NLS-1$
+		
+		/*Object s = ((IStructuredSelection)((NestedPetriNetSystemEditor)getActiveEditor()).getViewer().getSelection()).getFirstElement();
+    	if (s instanceof TokenTypeElementNet) {
+     		final TokenTypeElementNet tten = (TokenTypeElementNet)s;
+			menuManager.insertBefore( "edit", new OpenElementNetEditorAction(tten, this.getActiveEditor())); //$NON-NLS-1$
+    	}*/
 	}
 
 	/**
@@ -405,10 +424,6 @@ public class NestedPetriNetSystemActionBarContributor
 		menuManager.insertAfter("ui-actions", refreshViewerAction); //$NON-NLS-1$
 
 		super.addGlobalActions(menuManager);
-	}
-	
-	protected void addActions(IMenuManager menuManager) {
-		
 	}
 
 	/**

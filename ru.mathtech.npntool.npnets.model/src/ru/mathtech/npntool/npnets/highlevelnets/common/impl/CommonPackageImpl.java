@@ -10,10 +10,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import ru.mathtech.npntool.npnets.highlevelnets.common.CommonFactory;
 import ru.mathtech.npntool.npnets.highlevelnets.common.CommonPackage;
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.common.IEntityIdentifiable;
 import ru.mathtech.npntool.npnets.highlevelnets.common.INetElement;
 
@@ -61,6 +63,13 @@ public class CommonPackageImpl extends EPackageImpl implements CommonPackage {
 	 * @generated
 	 */
 	private EClass iEntityIdentifiableEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass iDiagramHolderEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -207,6 +216,24 @@ public class CommonPackageImpl extends EPackageImpl implements CommonPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIDiagramHolder() {
+		return iDiagramHolderEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIDiagramHolder_Diagram() {
+		return (EReference)iDiagramHolderEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getRectangle() {
 		return rectangleEDataType;
 	}
@@ -255,6 +282,9 @@ public class CommonPackageImpl extends EPackageImpl implements CommonPackage {
 		iEntityIdentifiableEClass = createEClass(IENTITY_IDENTIFIABLE);
 		createEAttribute(iEntityIdentifiableEClass, IENTITY_IDENTIFIABLE__ID);
 
+		iDiagramHolderEClass = createEClass(IDIAGRAM_HOLDER);
+		createEReference(iDiagramHolderEClass, IDIAGRAM_HOLDER__DIAGRAM);
+
 		// Create data types
 		rectangleEDataType = createEDataType(RECTANGLE);
 		pointEDataType = createEDataType(POINT);
@@ -283,12 +313,16 @@ public class CommonPackageImpl extends EPackageImpl implements CommonPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		NPNDiagramsPackage theNPNDiagramsPackage = (NPNDiagramsPackage)EPackage.Registry.INSTANCE.getEPackage(NPNDiagramsPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
 		iNetElementEClass.getESuperTypes().add(this.getIEntityIdentifiable());
+		iDiagramHolderEClass.getESuperTypes().add(this.getINetElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(iNetElementEClass, INetElement.class, "INetElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
@@ -297,6 +331,9 @@ public class CommonPackageImpl extends EPackageImpl implements CommonPackage {
 
 		initEClass(iEntityIdentifiableEClass, IEntityIdentifiable.class, "IEntityIdentifiable", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 		initEAttribute(getIEntityIdentifiable_Id(), ecorePackage.getEString(), "id", "", 1, 1, IEntityIdentifiable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+
+		initEClass(iDiagramHolderEClass, IDiagramHolder.class, "IDiagramHolder", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+		initEReference(getIDiagramHolder_Diagram(), theNPNDiagramsPackage.getNPNDiagramNetSystem(), theNPNDiagramsPackage.getNPNDiagramNetSystem_Host(), "diagram", null, 1, 1, IDiagramHolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
 		// Initialize data types
 		initEDataType(rectangleEDataType, Rectangle.class, "Rectangle", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$

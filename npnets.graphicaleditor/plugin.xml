@@ -6,10 +6,22 @@
       <editor
             class="npnets.complexeditor.NestedPetriNetSystemEditor"
             contributorClass="npnets.complexeditor.NestedPetriNetSystemActionBarContributor"
-            default="true"
             extensions="npnets"
             id="npnets.graphicaleditor.editorID"
             name="Dvoryansky&apos;s Nets Complex Edtior">
       </editor>
-   </extension>
+      <editor
+            class="npnets.complexeditor.editorparts.ElementNetEditorPart"
+            id="ene"
+            name="Element Net Editor">
+      </editor>
+    </extension>
+    <extension
+         point="org.eclipse.ui.views">
+        <view
+            class="npnets.complexeditor.editorparts.ElementNetEditorPart"
+            id="ene"
+            name="Element Net Editor">
+      </view>
+    </extension>
 </plugin>

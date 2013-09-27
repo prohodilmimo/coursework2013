@@ -4,7 +4,7 @@ package ru.mathtech.npntool.npnets.highlevelnets.npnets.model;
 
 import org.eclipse.emf.common.util.EList;
 
-import ru.mathtech.npntool.npnets.highlevelnets.common.INetElement;
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
 
@@ -26,6 +26,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getTypeAtomic <em>Type Atomic</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getNetConstants <em>Net Constants</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getSynchronizations <em>Synchronizations</em>}</li>
+ *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getHost <em>Host</em>}</li>
  * </ul>
  * </p>
  *
@@ -33,7 +34,7 @@ import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
  * @model
  * @generated
  */
-public interface NPnet extends INetElement {
+public interface NPnet extends IDiagramHolder {
 	/**
 	 * Returns the value of the '<em><b>Net System</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
@@ -133,5 +134,33 @@ public interface NPnet extends INetElement {
 	 * @generated
 	 */
 	EList<Synchronization> getSynchronizations();
+
+	/**
+	 * Returns the value of the '<em><b>Host</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked#getNet <em>Net</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Host</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Host</em>' container reference.
+	 * @see #setHost(NPnetMarked)
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPNetsPackage#getNPnet_Host()
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked#getNet
+	 * @model opposite="net" required="true" transient="false"
+	 * @generated
+	 */
+	NPnetMarked getHost();
+
+	/**
+	 * Sets the value of the '{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet#getHost <em>Host</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Host</em>' container reference.
+	 * @see #getHost()
+	 * @generated
+	 */
+	void setHost(NPnetMarked value);
 
 } // NPnet

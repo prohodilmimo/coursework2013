@@ -9,6 +9,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.common.IEntityIdentifiable;
 import ru.mathtech.npntool.npnets.highlevelnets.common.INetElement;
 
@@ -113,6 +114,10 @@ public class TokenTypesAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseINetElement(INetElement object) {
 				return createINetElementAdapter();
+			}
+			@Override
+			public Adapter caseIDiagramHolder(IDiagramHolder object) {
+				return createIDiagramHolderAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -285,6 +290,20 @@ public class TokenTypesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createINetElementAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder <em>IDiagram Holder</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder
+	 * @generated
+	 */
+	public Adapter createIDiagramHolderAdapter() {
 		return null;
 	}
 

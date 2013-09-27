@@ -15,4 +15,8 @@ public class ArcDeleteCommand extends Command {
 	public void setArc(final NPNSymbolArcSN arcParam) {
 		arc = arcParam;
 	}
+	
+	public NPNSymbolArcSN getArc() {
+		return this.arc;
+	}
 }

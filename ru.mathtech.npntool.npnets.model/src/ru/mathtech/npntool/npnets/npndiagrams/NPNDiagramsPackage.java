@@ -58,52 +58,6 @@ public interface NPNDiagramsPackage extends EPackage {
 	NPNDiagramsPackage eINSTANCE = ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNPNMarkedImpl <em>NPN Diagram NPN Marked</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNPNMarkedImpl
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNDiagramNPNMarked()
-	 * @generated
-	 */
-	int NPN_DIAGRAM_NPN_MARKED = 0;
-
-	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NPN_DIAGRAM_NPN_MARKED__ID = CommonPackage.IENTITY_IDENTIFIABLE__ID;
-
-	/**
-	 * The feature id for the '<em><b>Diagram Net System</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NPN_DIAGRAM_NPN_MARKED__DIAGRAM_NET_SYSTEM = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Model</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NPN_DIAGRAM_NPN_MARKED__MODEL = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>NPN Diagram NPN Marked</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NPN_DIAGRAM_NPN_MARKED_FEATURE_COUNT = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 2;
-
-	/**
 	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl <em>NPN Diagram Net System</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -111,7 +65,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNDiagramNetSystem()
 	 * @generated
 	 */
-	int NPN_DIAGRAM_NET_SYSTEM = 1;
+	int NPN_DIAGRAM_NET_SYSTEM = 0;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -123,13 +77,13 @@ public interface NPNDiagramsPackage extends EPackage {
 	int NPN_DIAGRAM_NET_SYSTEM__ID = CommonPackage.IENTITY_IDENTIFIABLE__ID;
 
 	/**
-	 * The feature id for the '<em><b>Model</b></em>' reference.
+	 * The feature id for the '<em><b>Host</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NPN_DIAGRAM_NET_SYSTEM__MODEL = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 0;
+	int NPN_DIAGRAM_NET_SYSTEM__HOST = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Nodes</b></em>' containment reference list.
@@ -150,13 +104,22 @@ public interface NPNDiagramsPackage extends EPackage {
 	int NPN_DIAGRAM_NET_SYSTEM__ARCS = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Model</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NPN_DIAGRAM_NET_SYSTEM__MODEL = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>NPN Diagram Net System</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NPN_DIAGRAM_NET_SYSTEM_FEATURE_COUNT = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 3;
+	int NPN_DIAGRAM_NET_SYSTEM_FEATURE_COUNT = CommonPackage.IENTITY_IDENTIFIABLE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNSymbolNodeSNImpl <em>NPN Symbol Node SN</em>}' class.
@@ -166,7 +129,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolNodeSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_NODE_SN = 6;
+	int NPN_SYMBOL_NODE_SN = 5;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -221,7 +184,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolPlaceSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_PLACE_SN = 2;
+	int NPN_SYMBOL_PLACE_SN = 1;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -294,7 +257,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolTransitionSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_TRANSITION_SN = 3;
+	int NPN_SYMBOL_TRANSITION_SN = 2;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -367,7 +330,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolArcSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_ARC_SN = 7;
+	int NPN_SYMBOL_ARC_SN = 6;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -422,7 +385,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolArcPTSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_ARC_PTSN = 4;
+	int NPN_SYMBOL_ARC_PTSN = 3;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -495,7 +458,7 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNSymbolArcTPSN()
 	 * @generated
 	 */
-	int NPN_SYMBOL_ARC_TPSN = 5;
+	int NPN_SYMBOL_ARC_TPSN = 4;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -562,38 +525,6 @@ public interface NPNDiagramsPackage extends EPackage {
 
 
 	/**
-	 * Returns the meta object for class '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked <em>NPN Diagram NPN Marked</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>NPN Diagram NPN Marked</em>'.
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked
-	 * @generated
-	 */
-	EClass getNPNDiagramNPNMarked();
-
-	/**
-	 * Returns the meta object for the reference '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked#getDiagramNetSystem <em>Diagram Net System</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Diagram Net System</em>'.
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked#getDiagramNetSystem()
-	 * @see #getNPNDiagramNPNMarked()
-	 * @generated
-	 */
-	EReference getNPNDiagramNPNMarked_DiagramNetSystem();
-
-	/**
-	 * Returns the meta object for the reference '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked#getModel <em>Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Model</em>'.
-	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNPNMarked#getModel()
-	 * @see #getNPNDiagramNPNMarked()
-	 * @generated
-	 */
-	EReference getNPNDiagramNPNMarked_Model();
-
-	/**
 	 * Returns the meta object for class '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem <em>NPN Diagram Net System</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -602,6 +533,17 @@ public interface NPNDiagramsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNPNDiagramNetSystem();
+
+	/**
+	 * Returns the meta object for the container reference '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getHost <em>Host</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Host</em>'.
+	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getHost()
+	 * @see #getNPNDiagramNetSystem()
+	 * @generated
+	 */
+	EReference getNPNDiagramNetSystem_Host();
 
 	/**
 	 * Returns the meta object for the reference '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getModel <em>Model</em>}'.
@@ -873,32 +815,6 @@ public interface NPNDiagramsPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNPNMarkedImpl <em>NPN Diagram NPN Marked</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNPNMarkedImpl
-		 * @see ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramsPackageImpl#getNPNDiagramNPNMarked()
-		 * @generated
-		 */
-		EClass NPN_DIAGRAM_NPN_MARKED = eINSTANCE.getNPNDiagramNPNMarked();
-
-		/**
-		 * The meta object literal for the '<em><b>Diagram Net System</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NPN_DIAGRAM_NPN_MARKED__DIAGRAM_NET_SYSTEM = eINSTANCE.getNPNDiagramNPNMarked_DiagramNetSystem();
-
-		/**
-		 * The meta object literal for the '<em><b>Model</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NPN_DIAGRAM_NPN_MARKED__MODEL = eINSTANCE.getNPNDiagramNPNMarked_Model();
-
-		/**
 		 * The meta object literal for the '{@link ru.mathtech.npntool.npnets.npndiagrams.impl.NPNDiagramNetSystemImpl <em>NPN Diagram Net System</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -907,6 +823,14 @@ public interface NPNDiagramsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NPN_DIAGRAM_NET_SYSTEM = eINSTANCE.getNPNDiagramNetSystem();
+
+		/**
+		 * The meta object literal for the '<em><b>Host</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NPN_DIAGRAM_NET_SYSTEM__HOST = eINSTANCE.getNPNDiagramNetSystem_Host();
 
 		/**
 		 * The meta object literal for the '<em><b>Model</b></em>' reference feature.

@@ -4,6 +4,7 @@ package ru.mathtech.npntool.npnets.npndiagrams;
 
 import org.eclipse.emf.common.util.EList;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.common.IEntityIdentifiable;
 
 import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
@@ -16,9 +17,10 @@ import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getModel <em>Model</em>}</li>
+ *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getHost <em>Host</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getNodes <em>Nodes</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getArcs <em>Arcs</em>}</li>
+ *   <li>{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getModel <em>Model</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,6 +29,34 @@ import ru.mathtech.npntool.npnets.highlevelnets.hlpn.HighLevelPetriNet;
  * @generated
  */
 public interface NPNDiagramNetSystem extends IEntityIdentifiable {
+	/**
+	 * Returns the value of the '<em><b>Host</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder#getDiagram <em>Diagram</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Host</em>' container reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Host</em>' container reference.
+	 * @see #setHost(IDiagramHolder)
+	 * @see ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramsPackage#getNPNDiagramNetSystem_Host()
+	 * @see ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder#getDiagram
+	 * @model opposite="diagram" required="true" transient="false"
+	 * @generated
+	 */
+	IDiagramHolder getHost();
+
+	/**
+	 * Sets the value of the '{@link ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem#getHost <em>Host</em>}' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Host</em>' container reference.
+	 * @see #getHost()
+	 * @generated
+	 */
+	void setHost(IDiagramHolder value);
+
 	/**
 	 * Returns the value of the '<em><b>Model</b></em>' reference.
 	 * <!-- begin-user-doc -->

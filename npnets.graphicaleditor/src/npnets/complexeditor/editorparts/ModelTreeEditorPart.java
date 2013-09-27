@@ -2,6 +2,7 @@ package npnets.complexeditor.editorparts;
 
 import npnets.complexeditor.NestedPetriNetSystemEditor;
 
+import org.eclipse.core.commands.common.IIdentifiable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -14,10 +15,13 @@ import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.provider.UnwrappingSelectionProvider;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -30,7 +34,11 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.OpenInNewWindowAction;
+import org.eclipse.ui.internal.WorkbenchWindow;
 import org.eclipse.ui.part.EditorPart;
+
+import ru.mathtech.npntool.npnets.highlevelnets.tokentypes.TokenTypeElementNet;
 
 
 public class ModelTreeEditorPart extends EditorPart
@@ -61,7 +69,7 @@ public class ModelTreeEditorPart extends EditorPart
 	    contextMenu.add(new Separator("additions"));
 	    contextMenu.setRemoveAllWhenShown(true);
 	    contextMenu.addMenuListener(this);
-	    Menu menu= contextMenu.createContextMenu(viewer.getControl());
+	    Menu menu = contextMenu.createContextMenu(viewer.getControl());
 	    viewer.getControl().setMenu(menu);
 	    getSite().registerContextMenu(contextMenu, new UnwrappingSelectionProvider(viewer));
 
@@ -72,14 +80,10 @@ public class ModelTreeEditorPart extends EditorPart
 	  }
 	    
 	  @Override
-	  public void doSave(IProgressMonitor monitor) {
-	    // nothing to do here - this is handled by the parent editor
-	  }
+	  public void doSave(IProgressMonitor monitor) { }
 
 	  @Override
-	  public void doSaveAs() {
-	    // nothing to do here - this is handled by the parent editor
-	  }
+	  public void doSaveAs() {}
 
 	  @Override
 	  public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -97,9 +101,9 @@ public class ModelTreeEditorPart extends EditorPart
 	    return true;
 	  }
 
-	  public void menuAboutToShow(IMenuManager manager) {
-	    // pass the request to show the context menu on to the parent editor
-	    ((IMenuListener)parentEditor.getEditorSite().getActionBarContributor()).menuAboutToShow(manager);
+	  public void menuAboutToShow(IMenuManager menuManager) {
+		  ((IMenuListener)parentEditor.getEditorSite().getActionBarContributor()).menuAboutToShow(menuManager);
+		  //parentEditor.menuAboutToShow(menuManager);
 	  }
 	  
 		@Override

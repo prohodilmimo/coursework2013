@@ -2,6 +2,7 @@
  */
 package ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl;
 
+import java.util.UUID;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -18,8 +19,6 @@ import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPNetsPackage;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnet;
 import ru.mathtech.npntool.npnets.highlevelnets.npnets.model.NPnetMarked;
 
-import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>NPnet Marked</b></em>'.
@@ -29,7 +28,6 @@ import ru.mathtech.npntool.npnets.npndiagrams.NPNDiagramNetSystem;
  * <ul>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.NPnetMarkedImpl#getNet <em>Net</em>}</li>
  *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.NPnetMarkedImpl#getMarking <em>Marking</em>}</li>
- *   <li>{@link ru.mathtech.npntool.npnets.highlevelnets.npnets.model.impl.NPnetMarkedImpl#getDiagramNetSystem <em>Diagram Net System</em>}</li>
  * </ul>
  * </p>
  *
@@ -57,14 +55,32 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 	protected Marking marking;
 
 	/**
-	 * The cached value of the '{@link #getDiagramNetSystem() <em>Diagram Net System</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getDiagramNetSystem()
+	 * ID's prefix  
 	 * @generated
-	 * @ordered
 	 */
-	protected NPNDiagramNetSystem diagramNetSystem;
+    protected static final String prefixID = "";
+
+	/**
+	 * ID's counter
+	 * @generated
+	 */
+    protected static long counterID = 0;
+
+	/**
+    * Generate a unique ID based on the current time
+    * @generated
+    */
+
+	protected synchronized String generateIDByTime() {
+	  short cur = (short)System.currentTimeMillis();
+	  if (cur<0) cur = (short)-cur;
+	  return prefixID + cur + counterID++;
+	}
+
+	protected synchronized String generateID() {
+	  String res = "npn" + UUID.randomUUID().toString();
+	  return res;
+	}
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -73,6 +89,8 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 	 */
 	protected NPnetMarkedImpl() {
 		super();
+  
+  
 	}
 
 	/**
@@ -118,9 +136,9 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 		if (newNet != net) {
 			NotificationChain msgs = null;
 			if (net != null)
-				msgs = ((InternalEObject)net).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NPNetsPackage.NPNET_MARKED__NET, null, msgs);
+				msgs = ((InternalEObject)net).eInverseRemove(this, NPNetsPackage.NPNET__HOST, NPnet.class, msgs);
 			if (newNet != null)
-				msgs = ((InternalEObject)newNet).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NPNetsPackage.NPNET_MARKED__NET, null, msgs);
+				msgs = ((InternalEObject)newNet).eInverseAdd(this, NPNetsPackage.NPNET__HOST, NPnet.class, msgs);
 			msgs = basicSetNet(newNet, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -176,42 +194,15 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NPNDiagramNetSystem getDiagramNetSystem() {
-		return diagramNetSystem;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetDiagramNetSystem(NPNDiagramNetSystem newDiagramNetSystem, NotificationChain msgs) {
-		NPNDiagramNetSystem oldDiagramNetSystem = diagramNetSystem;
-		diagramNetSystem = newDiagramNetSystem;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM, oldDiagramNetSystem, newDiagramNetSystem);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case NPNetsPackage.NPNET_MARKED__NET:
+				if (net != null)
+					msgs = ((InternalEObject)net).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NPNetsPackage.NPNET_MARKED__NET, null, msgs);
+				return basicSetNet((NPnet)otherEnd, msgs);
 		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDiagramNetSystem(NPNDiagramNetSystem newDiagramNetSystem) {
-		if (newDiagramNetSystem != diagramNetSystem) {
-			NotificationChain msgs = null;
-			if (diagramNetSystem != null)
-				msgs = ((InternalEObject)diagramNetSystem).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM, null, msgs);
-			if (newDiagramNetSystem != null)
-				msgs = ((InternalEObject)newDiagramNetSystem).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM, null, msgs);
-			msgs = basicSetDiagramNetSystem(newDiagramNetSystem, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM, newDiagramNetSystem, newDiagramNetSystem));
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -226,8 +217,6 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 				return basicSetNet(null, msgs);
 			case NPNetsPackage.NPNET_MARKED__MARKING:
 				return basicSetMarking(null, msgs);
-			case NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM:
-				return basicSetDiagramNetSystem(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -244,8 +233,6 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 				return getNet();
 			case NPNetsPackage.NPNET_MARKED__MARKING:
 				return getMarking();
-			case NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM:
-				return getDiagramNetSystem();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -263,9 +250,6 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 				return;
 			case NPNetsPackage.NPNET_MARKED__MARKING:
 				setMarking((Marking)newValue);
-				return;
-			case NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM:
-				setDiagramNetSystem((NPNDiagramNetSystem)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -285,9 +269,6 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 			case NPNetsPackage.NPNET_MARKED__MARKING:
 				setMarking((Marking)null);
 				return;
-			case NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM:
-				setDiagramNetSystem((NPNDiagramNetSystem)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -304,8 +285,6 @@ public class NPnetMarkedImpl extends INetElementImpl implements NPnetMarked {
 				return net != null;
 			case NPNetsPackage.NPNET_MARKED__MARKING:
 				return marking != null;
-			case NPNetsPackage.NPNET_MARKED__DIAGRAM_NET_SYSTEM:
-				return diagramNetSystem != null;
 		}
 		return super.eIsSet(featureID);
 	}

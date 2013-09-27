@@ -3,7 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Nested Petri Nets GEF Editor
 Bundle-SymbolicName: npnets.graphicaleditor;singleton:=true
 Bundle-Version: 0.0.1
+Bundle-ClassPath: .
 Bundle-Activator: npnets.complexeditor.NestedPetriNetSystemEditorPlugin$Implementation
+Bundle-Vendor: i.k.
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.gef,
@@ -13,12 +17,12 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jface.text,
  org.eclipse.core.resources,
  org.eclipse.ui.editors,
- org.eclipse.ui.ide
-Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+ org.eclipse.ui.ide,
+ org.eclipse.gmf.runtime.diagram.ui.resources.editor;bundle-version="1.4.1",
+ org.eclipse.emf.transaction;bundle-version="1.4.0"
 Import-Package: org.eclipse.core.resources,
  org.eclipse.ui.actions,
  org.eclipse.ui.dialogs,
  org.eclipse.ui.ide,
  org.eclipse.ui.part
-Bundle-Vendor: i.k.
+Bundle-ActivationPolicy: lazy

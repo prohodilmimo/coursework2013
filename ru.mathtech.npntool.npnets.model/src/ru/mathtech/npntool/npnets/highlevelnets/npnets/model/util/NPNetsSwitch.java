@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
 
+import ru.mathtech.npntool.npnets.highlevelnets.common.IDiagramHolder;
 import ru.mathtech.npntool.npnets.highlevelnets.common.IEntityIdentifiable;
 import ru.mathtech.npntool.npnets.highlevelnets.common.INetElement;
 
@@ -76,6 +77,7 @@ public class NPNetsSwitch<T> extends Switch<T> {
 			case NPNetsPackage.NPNET: {
 				NPnet nPnet = (NPnet)theEObject;
 				T result = caseNPnet(nPnet);
+				if (result == null) result = caseIDiagramHolder(nPnet);
 				if (result == null) result = caseINetElement(nPnet);
 				if (result == null) result = caseIEntityIdentifiable(nPnet);
 				if (result == null) result = defaultCase(theEObject);
@@ -199,6 +201,21 @@ public class NPNetsSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseINetElement(INetElement object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>IDiagram Holder</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>IDiagram Holder</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIDiagramHolder(IDiagramHolder object) {
 		return null;
 	}
 

@@ -205,13 +205,22 @@ public interface TokenTypesPackage extends EPackage {
 	int TOKEN_TYPE_ELEMENT_NET__COMMENT = TOKEN_TYPE__COMMENT;
 
 	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TOKEN_TYPE_ELEMENT_NET__DIAGRAM = TOKEN_TYPE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Element Net Markeds</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS = TOKEN_TYPE_FEATURE_COUNT + 0;
+	int TOKEN_TYPE_ELEMENT_NET__ELEMENT_NET_MARKEDS = TOKEN_TYPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Net</b></em>' containment reference.
@@ -220,7 +229,7 @@ public interface TokenTypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOKEN_TYPE_ELEMENT_NET__NET = TOKEN_TYPE_FEATURE_COUNT + 1;
+	int TOKEN_TYPE_ELEMENT_NET__NET = TOKEN_TYPE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Token Nets</b></em>' containment reference list.
@@ -229,7 +238,7 @@ public interface TokenTypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOKEN_TYPE_ELEMENT_NET__TOKEN_NETS = TOKEN_TYPE_FEATURE_COUNT + 2;
+	int TOKEN_TYPE_ELEMENT_NET__TOKEN_NETS = TOKEN_TYPE_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Token Type Element Net</em>' class.
@@ -238,7 +247,7 @@ public interface TokenTypesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TOKEN_TYPE_ELEMENT_NET_FEATURE_COUNT = TOKEN_TYPE_FEATURE_COUNT + 3;
+	int TOKEN_TYPE_ELEMENT_NET_FEATURE_COUNT = TOKEN_TYPE_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link ru.mathtech.npntool.npnets.highlevelnets.tokentypes.impl.TokenImpl <em>Token</em>}' class.
